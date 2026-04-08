@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Rooted Soles — Turning Old Shoes into New Beginnings</title>
+<meta name="description" content="Rooted Soles collects your used sneakers, sells them to partner organizations, and uses every dollar to plant trees across Delaware through Deep Roots Foundation."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* ─────────────────────────────────────────
+   TOKENS
+───────────────────────────────────────── */
+:root{
+  --green:#3f8c44;        /* exact logo green */
+  --green-dark:#2a5e2e;   /* darker shade of logo green */
+  --green-light:#55a451;  /* lighter shade from logo */
+  --green-pale:#edf5ee;   /* very light tint */
+  --orange:#f4722b;
+  --orange-dark:#d45f1e;
+  --yellow:#f9c846;
+  --white:#ffffff;
+  --off:#f7f9f7;
+  --ink:#1a2e1a;
+  --mid:#4a6450;
+  --border:#d8ebd9;
+  --fd:'Barlow Condensed',Impact,sans-serif;
+  --fb:'Nunito','Helvetica Neue',Arial,sans-serif;
+  --e:cubic-bezier(.25,.46,.45,.94);
+  --es:cubic-bezier(.34,1.56,.64,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--white);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ─────────────────────────────────────────
+   SCROLL REVEAL
+───────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .65s var(--e),transform .65s var(--e)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
+
+/* ─────────────────────────────────────────
+   NAV
+───────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  background:#fff;
+  border-bottom:1px solid rgba(0,0,0,.07);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 4rem;height:96px;
+  transition:height .3s var(--e),box-shadow .3s;
+  box-shadow:0 1px 0 rgba(0,0,0,.04);
+}
+nav.shrunk{height:74px;box-shadow:0 4px 28px rgba(0,0,0,.1)}
+.nav-left{display:flex;align-items:center;gap:1rem}
+.nav-logo{width:76px;height:76px;object-fit:contain;transition:transform .35s var(--es),width .3s,height .3s;flex-shrink:0}
+nav.shrunk .nav-logo{width:60px;height:60px}
+.nav-logo:hover{transform:rotate(-6deg) scale(1.06)}
+.nav-brand{display:flex;flex-direction:column;line-height:1.1;padding-left:.9rem;border-left:2px solid var(--border)}
+.nav-name{font-family:var(--fd);font-size:1.75rem;font-weight:900;color:var(--ink);letter-spacing:.02em}
+.nav-tag{font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--green);margin-top:.15rem}
+.nav-links{display:flex;align-items:center;gap:2.2rem}
+.nav-links a{font-size:.9rem;font-weight:700;color:var(--mid);letter-spacing:.01em;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--green);border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform .25s var(--e)}
+.nav-links a:hover{color:var(--green)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{
+  background:var(--orange);color:#fff!important;
+  padding:.7rem 1.8rem;border-radius:50px;
+  font-weight:800!important;font-size:.9rem!important;
+  letter-spacing:.03em;
+  box-shadow:0 4px 18px rgba(244,114,43,.35);
+  transition:background .2s,transform .2s,box-shadow .2s!important;
+}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{background:var(--orange-dark)!important;transform:translateY(-2px)!important;box-shadow:0 8px 28px rgba(244,114,43,.4)!important}
+.nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-ham span{display:block;width:24px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+
+/* ─────────────────────────────────────────
+   MOBILE MENU
+───────────────────────────────────────── */
+.mob{display:none;position:fixed;inset:0;z-index:950;background:var(--green-dark);flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+.mob.on{display:flex}
+.mob a{font-family:var(--fd);font-size:2.4rem;font-weight:900;color:#fff;letter-spacing:.04em;transition:color .2s}
+.mob a:hover{color:var(--yellow)}
+.mob-x{position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:#fff;font-size:2.2rem;cursor:pointer;line-height:1}
+
+/* ─────────────────────────────────────────
+   HERO — full viewport, light mint bg
+───────────────────────────────────────── */
+#hero{
+  height:100vh;
+  min-height:640px;
+  display:flex;align-items:stretch;
+  position:relative;overflow:hidden;
+  background:#eaffe9;
+  padding:0;
+  margin-top:0;
+}
+/* soft layered depth */
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 70% at 75% 50%, rgba(63,140,68,.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 10% 80%, rgba(63,140,68,.07) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 0%, rgba(255,255,255,.6) 0%, transparent 50%);
+  pointer-events:none;z-index:0;
+}
+/* subtle dot grid */
+#hero::after{
+  content:'';position:absolute;inset:0;z-index:0;
+  background-image:radial-gradient(circle, rgba(63,140,68,.08) 1px, transparent 1px);
+  background-size:28px 28px;
+  pointer-events:none;
+}
+/* top accent bar */
+.hero-topbar{
+  position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg, transparent 0%, #3f8c44 25%, #55a451 50%, #3f8c44 75%, transparent 100%);
+  z-index:10;
+}
+
+/* inner layout */
+.hero-inner{
+  position:relative;z-index:1;
+  width:100%;max-width:1280px;
+  margin:0 auto;
+  padding:110px 4.5rem 3rem;
+  display:grid;
+  grid-template-columns:1fr 480px;
+  align-items:center;
+  gap:4rem;
+  align-self:stretch;
+}
+
+/* ── LEFT: copy ── */
+.hero-left{
+  display:flex;flex-direction:column;
+  padding:0;background:none;
+  position:static;overflow:visible;
+  width:auto;flex-shrink:unset;
+}
+.hero-left::before,.hero-left::after{display:none}
+.hero-glow-bot{display:none}
+
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:rgba(63,140,68,.12);
+  border:1px solid rgba(63,140,68,.3);
+  color:#2a5e2e;font-size:.7rem;font-weight:800;
+  letter-spacing:.22em;text-transform:uppercase;
+  padding:.45rem 1.1rem;border-radius:50px;
+  margin-bottom:2rem;width:fit-content;
+}
+.hero-eyebrow-dot{
+  width:5px;height:5px;background:#3f8c44;
+  border-radius:50%;animation:kpulse 2s infinite;
+}
+@keyframes kpulse{0%,100%{transform:scale(1)}50%{transform:scale(2.2);opacity:.4}}
+
+.hero-h1{
+  font-family:var(--fd);
+  font-size:clamp(4rem,5.8vw,6.8rem);
+  font-weight:900;line-height:.92;
+  color:#1a2e1a;
+  margin-bottom:1.8rem;
+  letter-spacing:-.005em;
+  text-transform:uppercase;
+}
+.hero-h1 .line1{display:block;}
+/* outlined accent — dark green stroke on light bg */
+.hero-h1 .line2{
+  display:block;
+  color:#3f8c44;
+  -webkit-text-stroke:0px;
+}
+
+.hero-p{
+  font-size:1.08rem;color:#3d5c3e;
+  line-height:1.85;max-width:500px;
+  margin-bottom:2.6rem;font-weight:400;
+}
+
+.hero-btns{
+  display:flex;flex-wrap:wrap;gap:1rem;
+  margin-bottom:3.5rem;
+}
+.btn-orange{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:var(--orange);color:#fff;
+  padding:.95rem 2.2rem;border-radius:50px;
+  font-weight:800;font-size:.95rem;letter-spacing:.02em;
+  box-shadow:0 6px 28px rgba(244,114,43,.35);
+  transition:background .2s,transform .2s,box-shadow .2s;
+}
+.btn-orange:hover{background:var(--orange-dark);transform:translateY(-3px);box-shadow:0 14px 36px rgba(244,114,43,.45)}
+.btn-ghost-w{
+  display:inline-flex;align-items:center;gap:.55rem;
+  border:2px solid rgba(42,94,46,.3);
+  color:#2a5e2e;background:rgba(255,255,255,.6);
+  padding:.95rem 2.2rem;border-radius:50px;
+  font-weight:700;font-size:.95rem;
+  transition:all .2s;
+}
+.btn-ghost-w:hover{border-color:#3f8c44;background:#fff;transform:translateY(-3px);box-shadow:0 6px 20px rgba(63,140,68,.15)}
+
+/* stats bar */
+.hero-nums{
+  display:flex;gap:0;
+  border-top:1px solid rgba(63,140,68,.2);
+  padding-top:2rem;
+}
+.hn-item{
+  padding-right:2.5rem;margin-right:2.5rem;
+  border-right:1px solid rgba(63,140,68,.15);
+}
+.hn-item:last-child{border-right:none;margin-right:0;padding-right:0}
+.hn-val{
+  font-family:var(--fd);font-weight:900;
+  font-size:2.8rem;color:#2a5e2e;
+  line-height:1;letter-spacing:.01em;
+}
+.hn-lbl{
+  font-size:.68rem;color:#5a7a5b;
+  text-transform:uppercase;letter-spacing:.15em;
+  margin-top:.4rem;font-weight:700;
+}
+
+/* ── RIGHT: logo ── */
+.hero-right{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  background:none;overflow:visible;
+}
+/* outer slow ring */
+.hero-right::before{
+  content:'';position:absolute;
+  width:500px;height:500px;border-radius:50%;
+  border:1.5px solid rgba(63,140,68,.18);
+  animation:ringPulse 5s ease-in-out infinite;
+}
+/* inner dashed ring */
+.hero-right::after{
+  content:'';position:absolute;
+  width:400px;height:400px;border-radius:50%;
+  border:1.5px dashed rgba(63,140,68,.25);
+  animation:ringPulse 5s ease-in-out infinite reverse;
+}
+@keyframes ringPulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.05);opacity:.5}
+}
+
+/* soft glow bloom on light bg */
+.hero-glow-ring{
+  position:absolute;
+  width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(ellipse, rgba(63,140,68,.14) 0%, rgba(63,140,68,.05) 45%, transparent 70%);
+  filter:blur(30px);
+  animation:glowBreath 5s ease-in-out infinite;
+}
+@keyframes glowBreath{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.08);opacity:.7}
+}
+
+.hero-corner,.hero-corner2,.hero-dot1,.hero-dot2,.hero-dot3{display:none}
+
+.hero-img-wrap{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-logo-big{
+  width:370px;height:370px;object-fit:contain;
+  border-radius:50%;
+  background:#ffffff;
+  padding:26px;
+  box-shadow:
+    0 0 0 6px rgba(63,140,68,.15),
+    0 0 0 14px rgba(63,140,68,.07),
+    0 0 0 28px rgba(63,140,68,.03),
+    0 20px 60px rgba(63,140,68,.2),
+    0 4px 20px rgba(0,0,0,.08);
+  animation:heroFloat 7s ease-in-out infinite;
+}
+@keyframes heroFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-16px)}
+}
+
+.hero-badge{
+  position:absolute;bottom:1rem;right:-1rem;
+  background:var(--orange);color:#fff;
+  border-radius:16px;padding:1rem 1.5rem;
+  font-weight:800;font-size:.8rem;text-align:center;line-height:1.4;
+  box-shadow:0 10px 30px rgba(244,114,43,.45);
+  animation:badgeFloat 3.5s ease-in-out infinite;z-index:3;
+}
+.hero-badge strong{
+  font-family:var(--fd);font-size:2rem;
+  display:block;line-height:1;letter-spacing:.02em;
+}
+@keyframes badgeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+
+
+/* ─────────────────────────────────────────
+   MARQUEE
+───────────────────────────────────────── */
+.mq-band{background:var(--green);overflow:hidden;padding:1rem 0;position:relative;z-index:3;display:block;margin:0}
+.mq-track{display:flex;animation:mq 26s linear infinite;white-space:nowrap}
+.mq-track span{font-family:var(--fd);font-weight:700;font-size:.9rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.92);padding:0 2rem}
+.mq-track .mq-dot{color:var(--yellow)}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─────────────────────────────────────────
+   SECTION SHARED
+───────────────────────────────────────── */
+section{padding:7rem 4rem}
+.wrap{max-width:1240px;margin:0 auto;width:100%}
+.tag{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--green);margin-bottom:.9rem;
+}
+.tag::before{content:'';display:block;width:22px;height:2.5px;background:var(--green);border-radius:2px}
+h2.sh{
+  font-family:var(--fd);font-weight:900;
+  font-size:clamp(2.4rem,4vw,3.6rem);
+  line-height:1.0;color:var(--ink);
+  margin-bottom:1rem;text-transform:uppercase;letter-spacing:.02em;
+}
+h2.sh em{font-style:italic;color:var(--green);font-family:var(--fd)}
+p.sp{font-size:1.05rem;color:var(--mid);line-height:1.8;max-width:540px;font-weight:400}
+
+/* ─────────────────────────────────────────
+   HOW IT WORKS
+───────────────────────────────────────── */
+#how{background:#fff}
+.how-top{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:5rem}
+.steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;position:relative}
+/* connector line */
+.steps-row::before{
+  content:'';position:absolute;
+  top:2.8rem;left:calc(12.5% + 2rem);right:calc(12.5% + 2rem);
+  height:2px;
+  background:linear-gradient(90deg,var(--green-pale),var(--green),var(--green-light),var(--green));
+  z-index:0;
+}
+.step-card{
+  background:var(--off);border-radius:20px;
+  padding:2rem 1.5rem 1.8rem;
+  border:1.5px solid var(--border);
+  text-align:center;position:relative;z-index:1;
+  transition:transform .3s var(--es),box-shadow .3s,border-color .3s;
+}
+.step-card:hover{transform:translateY(-8px);box-shadow:0 18px 48px rgba(63,140,68,.12);border-color:var(--green)}
+.step-n{
+  width:52px;height:52px;
+  background:var(--green-dark);color:#fff;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--fd);font-weight:900;font-size:1.35rem;
+  margin:0 auto 1.2rem;
+  box-shadow:0 4px 16px rgba(42,94,46,.3);
+  border:3px solid #fff;
+}
+.step-ico{font-size:2.2rem;margin-bottom:.9rem}
+.step-t{font-family:var(--fd);font-weight:800;font-size:1.1rem;color:var(--ink);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.03em}
+.step-d{font-size:.88rem;color:var(--mid);line-height:1.65}
+
+/* ─────────────────────────────────────────
+   IMPACT STATS
+───────────────────────────────────────── */
+#impact{background:var(--green-dark);position:relative;overflow:hidden}
+#impact::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:30px 30px;
+}
+.impact-wrap{position:relative;z-index:1}
+.impact-top{text-align:center;margin-bottom:4rem}
+#impact .tag{color:var(--yellow);justify-content:center}
+#impact .tag::before{background:var(--yellow)}
+#impact h2.sh{color:#fff}
+#impact p.sp{color:rgba(255,255,255,.55);margin:0 auto;text-align:center}
+.impact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-bottom:4rem}
+.imp-card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:2.2rem 1.5rem;
+  text-align:center;
+  transition:background .3s,transform .3s var(--e),border-color .3s;
+}
+.imp-card:hover{background:rgba(85,164,81,.15);transform:translateY(-6px);border-color:rgba(85,164,81,.3)}
+.imp-n{font-family:var(--fd);font-weight:900;font-size:3.2rem;color:var(--yellow);line-height:1;letter-spacing:.01em}
+.imp-l{font-size:.82rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.12em;margin-top:.6rem;font-weight:600}
+/* why row */
+.why-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.why-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;padding:2.5rem 2rem;
+  transition:background .3s,transform .3s var(--e),border-color .3s;
+}
+.why-card:hover{background:rgba(85,164,81,.12);transform:translateY(-5px);border-color:rgba(85,164,81,.2)}
+.why-ico{
+  width:54px;height:54px;border-radius:14px;
+  background:rgba(85,164,81,.15);border:1px solid rgba(85,164,81,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;margin-bottom:1.4rem;
+}
+.why-t{font-family:var(--fd);font-weight:800;font-size:1.15rem;color:#fff;margin-bottom:.55rem;text-transform:uppercase;letter-spacing:.03em}
+.why-d{font-size:.9rem;color:rgba(255,255,255,.52);line-height:1.75}
+
+/* ─────────────────────────────────────────
+   ABOUT / MISSION
+───────────────────────────────────────── */
+#about{background:var(--off)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center}
+.about-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.acard{
+  background:#fff;border-radius:18px;
+  padding:1.8rem 1.5rem;
+  border:1.5px solid var(--border);
+  transition:transform .3s var(--es),box-shadow .3s,border-color .3s;
+}
+.acard:hover{transform:translateY(-6px);box-shadow:0 12px 36px rgba(63,140,68,.1);border-color:var(--green)}
+.acard:nth-child(2){margin-top:0}
+.acard:nth-child(4){margin-top:0}
+.acard-ico{font-size:1.9rem;margin-bottom:.8rem}
+.acard-t{font-family:var(--fd);font-weight:800;font-size:1rem;color:var(--ink);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.03em}
+.acard-d{font-size:.85rem;color:var(--mid);line-height:1.65}
+.about-badge{
+  margin-top:1.5rem;
+  display:inline-block;
+  background:var(--green-dark);color:#fff;
+  border-radius:18px;padding:1.2rem 1.8rem;
+  box-shadow:0 8px 32px rgba(42,94,46,.3);
+  font-family:var(--fd);font-weight:900;text-align:center;
+}
+.about-badge .bn{font-size:2.6rem;color:var(--yellow);line-height:1;letter-spacing:.01em}
+.about-badge .bl{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-top:.2rem;font-family:var(--fb);font-weight:700}
+.about-visual{}
+
+/* ─────────────────────────────────────────
+   FOUNDERS
+───────────────────────────────────────── */
+#founders{background:#fff}
+.founders-top{text-align:center;margin-bottom:4rem}
+.founders-top p.sp{margin:0 auto;text-align:center}
+.founders-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.founder-card{
+  border-radius:24px;overflow:hidden;
+  border:1.5px solid var(--border);
+  transition:transform .3s var(--es),box-shadow .3s;
+}
+.founder-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(63,140,68,.12)}
+.founder-banner{
+  height:8px;
+  background:linear-gradient(90deg,var(--green),var(--green-light),var(--yellow));
+}
+.founder-body{padding:2.5rem 2.5rem 2.2rem}
+.founder-avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--green-light));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;margin-bottom:1.4rem;
+  box-shadow:0 4px 16px rgba(63,140,68,.25);
+}
+.founder-role{
+  font-size:.7rem;font-weight:800;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--green);margin-bottom:.35rem;
+}
+.founder-name{
+  font-family:var(--fd);font-weight:900;font-size:2rem;
+  color:var(--ink);margin-bottom:1.2rem;text-transform:uppercase;letter-spacing:.03em;
+}
+.founder-quote{
+  font-size:1rem;color:var(--mid);line-height:1.85;
+  font-style:italic;padding-left:1.4rem;
+  border-left:3px solid var(--green);
+}
+/* co-founder card — dark version */
+.founder-card.dark{background:var(--green-dark);border-color:var(--green-dark)}
+.founder-card.dark .founder-role{color:var(--yellow)}
+.founder-card.dark .founder-name{color:#fff}
+.founder-card.dark .founder-quote{color:rgba(255,255,255,.62);border-left-color:var(--yellow)}
+.founder-card.dark .founder-banner{background:linear-gradient(90deg,var(--yellow),var(--orange),#fff)}
+.founder-card.dark .founder-avatar{background:linear-gradient(135deg,var(--yellow),var(--orange))}
+.founder-card.dark .cf-link{
+  display:inline-flex;align-items:center;gap:.4rem;
+  margin-top:1.2rem;font-size:.9rem;font-weight:800;
+  color:var(--yellow);transition:gap .2s;
+}
+.founder-card.dark .cf-link:hover{gap:.75rem}
+.founder-feat{
+  margin-top:2rem;display:flex;flex-direction:column;gap:.85rem;
+}
+.ff{display:flex;align-items:flex-start;gap:.85rem}
+.ff-dot{
+  width:24px;height:24px;flex-shrink:0;
+  background:var(--green-pale);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--green);font-size:.75rem;margin-top:.15rem;
+  font-weight:800;
+}
+.ff-txt{font-size:.92rem;color:var(--mid);line-height:1.65}
+.ff-txt strong{color:var(--ink)}
+
+/* ─────────────────────────────────────────
+   PARTNER CHIPS
+───────────────────────────────────────── */
+#partner{background:var(--green-pale)}
+.partner-center{text-align:center}
+.partner-center h2.sh,.partner-center p.sp{margin-left:auto;margin-right:auto}
+.partner-center p.sp{text-align:center;margin-bottom:3rem}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.9rem}
+.chip{
+  display:flex;align-items:center;gap:.55rem;
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:50px;padding:.7rem 1.5rem;
+  font-weight:700;font-size:.9rem;color:var(--ink);
+  box-shadow:0 2px 12px rgba(63,140,68,.06);
+  transition:transform .2s,box-shadow .2s,border-color .2s,background .2s;
+}
+.chip:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(63,140,68,.14);border-color:var(--green);background:var(--green-pale)}
+.chip .cd{width:7px;height:7px;background:var(--green);border-radius:50%;flex-shrink:0}
+.chip.feat{background:var(--green-dark);color:#fff;border-color:var(--green-dark)}
+.chip.feat .cd{background:var(--yellow)}
+.chip.feat:hover{background:#1a4a2e}
+
+/* ─────────────────────────────────────────
+   DONATE / CONTACT
+───────────────────────────────────────── */
+#donate{background:#fff}
+.donate-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.donate-ways{display:flex;flex-direction:column;gap:1.1rem;margin-top:2.5rem}
+.way{
+  display:flex;align-items:flex-start;gap:1.2rem;
+  background:var(--off);border-radius:18px;
+  padding:1.5rem 1.8rem;
+  border:1.5px solid var(--border);
+  transition:border-color .25s,transform .25s var(--e),background .25s;
+}
+.way:hover{border-color:var(--green);transform:translateX(7px);background:var(--green-pale)}
+.way-ico{font-size:1.8rem;flex-shrink:0;margin-top:.1rem}
+.way-t{font-family:var(--fd);font-weight:800;font-size:1.05rem;color:var(--ink);text-transform:uppercase;letter-spacing:.03em;margin-bottom:.25rem}
+.way-d{font-size:.88rem;color:var(--mid);line-height:1.6}
+/* contact card */
+.cc{
+  background:var(--green-dark);color:#fff;
+  border-radius:24px;padding:2.8rem 2.5rem;
+  position:sticky;top:100px;
+}
+.cc-t{font-family:var(--fd);font-weight:900;font-size:2rem;margin-bottom:.55rem;text-transform:uppercase;letter-spacing:.03em}
+.cc-s{font-size:.95rem;color:rgba(255,255,255,.5);margin-bottom:2rem;line-height:1.65}
+.fg{margin-bottom:1.1rem}
+.fl{display:block;font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.5rem}
+.fi,.fsel,.fta{
+  width:100%;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);color:#fff;
+  border-radius:12px;padding:.85rem 1.1rem;font-size:.95rem;
+  font-family:var(--fb);outline:none;
+  transition:border-color .25s,background .25s;
+}
+.fi:focus,.fsel:focus,.fta:focus{border-color:var(--green-light);background:rgba(85,164,81,.08)}
+.fi::placeholder,.fta::placeholder{color:rgba(255,255,255,.25)}
+.fta{resize:vertical;min-height:88px}
+.fsel{appearance:none;cursor:pointer}
+.fsel option{background:var(--green-dark)}
+.fsub{
+  width:100%;background:var(--orange);border:none;color:#fff;
+  border-radius:50px;padding:1.05rem;cursor:pointer;
+  font-family:var(--fd);font-weight:900;font-size:1.1rem;
+  letter-spacing:.05em;text-transform:uppercase;
+  transition:background .2s,transform .2s;
+  box-shadow:0 4px 20px rgba(244,114,43,.3);
+}
+.fsub:hover{background:var(--orange-dark);transform:translateY(-2px)}
+.fnote{font-size:.73rem;color:rgba(255,255,255,.28);text-align:center;margin-top:.8rem;line-height:1.5}
+
+/* ─────────────────────────────────────────
+   FAQ
+───────────────────────────────────────── */
+#faq{background:var(--off)}
+.faq-grid{display:grid;grid-template-columns:1fr 2fr;gap:5rem;align-items:start}
+.faq-list{display:flex;flex-direction:column;gap:.7rem;margin-top:.5rem}
+.fitem{
+  border:1.5px solid var(--border);border-radius:16px;
+  overflow:hidden;background:#fff;
+  transition:border-color .25s,box-shadow .25s;
+}
+.fitem:hover{border-color:var(--green);box-shadow:0 4px 18px rgba(63,140,68,.08)}
+.fq{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 1.5rem;cursor:pointer;
+  font-weight:700;font-size:.95rem;color:var(--ink);gap:1rem;
+}
+.fchev{
+  width:26px;height:26px;flex-shrink:0;
+  background:var(--green-pale);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;color:var(--green);
+  transition:transform .3s,background .3s;
+}
+.fitem.open .fchev{transform:rotate(180deg);background:var(--green);color:#fff}
+.fa{max-height:0;overflow:hidden;transition:max-height .4s var(--e);font-size:.9rem;color:var(--mid);line-height:1.75}
+.fitem.open .fa{max-height:250px}
+.fai{padding:0 1.5rem 1.3rem}
+
+/* ─────────────────────────────────────────
+   CTA BANNER
+───────────────────────────────────────── */
+#cta{
+  background:var(--orange);
+  text-align:center;padding:7rem 4rem;
+  position:relative;overflow:hidden;
+}
+#cta::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.08) 1px,transparent 1px);
+  background-size:26px 26px;
+}
+.cta-wrap{position:relative;z-index:1;max-width:780px;margin:0 auto}
+.cta-h{
+  font-family:var(--fd);font-weight:900;
+  font-size:clamp(3rem,5vw,5.5rem);
+  color:#fff;margin-bottom:1.2rem;line-height:.96;
+  text-transform:uppercase;letter-spacing:.02em;
+}
+.cta-p{font-size:1.1rem;color:rgba(255,255,255,.7);margin-bottom:2.8rem;line-height:1.7}
+.cta-btns{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
+.btn-white{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:#fff;color:var(--orange);
+  padding:1rem 2.4rem;border-radius:50px;
+  font-weight:800;font-size:1rem;letter-spacing:.02em;
+  box-shadow:0 6px 28px rgba(0,0,0,.15);
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-white:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.2)}
+.btn-ghost-o{
+  display:inline-flex;align-items:center;gap:.5rem;
+  border:2px solid rgba(255,255,255,.5);color:#fff;
+  padding:1rem 2.4rem;border-radius:50px;
+  font-weight:700;font-size:1rem;
+  transition:all .2s;
+}
+.btn-ghost-o:hover{border-color:#fff;background:rgba(255,255,255,.15);transform:translateY(-3px)}
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+footer{background:var(--ink);padding:5rem 4rem 2.5rem}
+.footer-top{
+  max-width:1240px;margin:0 auto;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:3.5rem;padding-bottom:3.5rem;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.fbrand{display:flex;align-items:center;gap:.9rem;margin-bottom:1.2rem}
+.fbrand-logo{width:52px;height:52px;object-fit:contain;flex-shrink:0}
+.fbrand-name{font-family:var(--fd);font-weight:900;font-size:1.4rem;color:#fff;text-transform:uppercase;letter-spacing:.05em}
+.ftag{font-size:.88rem;color:rgba(255,255,255,.32);line-height:1.75;max-width:280px}
+.fct{font-size:.68rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:1.2rem}
+.fcl{display:flex;flex-direction:column;gap:.7rem}
+.fcl a{font-size:.9rem;color:rgba(255,255,255,.45);transition:color .2s}
+.fcl a:hover{color:var(--green-light)}
+.footer-bot{
+  max-width:1240px;margin:2rem auto 0;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+}
+.footer-bot p{font-size:.8rem;color:rgba(255,255,255,.22)}
+.footer-bot a{color:rgba(255,255,255,.32);transition:color .2s}
+.footer-bot a:hover{color:var(--green-light)}
+.fhrt{color:var(--green-light)}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media(max-width:960px){
+  nav,nav.shrunk{padding:0 1.5rem;height:76px}
+  .nav-logo{width:58px;height:58px}
+  .nav-links{display:none}
+  .nav-ham{display:flex}
+  .nav-tag{display:none}
+  section{padding:5rem 1.5rem}
+  #hero{height:auto;min-height:100vh;align-items:flex-start;padding:0}
+  .hero-inner{grid-template-columns:1fr;padding:96px 2rem 3rem;gap:2rem}
+  .hero-right{display:none}
+  .hero-p{max-width:100%}
+  .how-top{grid-template-columns:1fr;gap:2rem}
+  .steps-row{grid-template-columns:1fr 1fr}
+  .steps-row::before{display:none}
+  .impact-grid{grid-template-columns:1fr 1fr}
+  .why-row{grid-template-columns:1fr}
+  .about-grid,.donate-grid,.founders-grid{grid-template-columns:1fr;gap:3rem}
+  .about-badge{right:0}
+  .faq-grid{grid-template-columns:1fr;gap:2.5rem}
+  .footer-top{grid-template-columns:1fr 1fr;gap:2.5rem}
+}
+@media(max-width:560px){
+  .hero-h1{font-size:3.2rem}
+  .steps-row{grid-template-columns:1fr}
+  .about-cards{grid-template-columns:1fr}
+  .acard:nth-child(2),.acard:nth-child(4){margin-top:0}
+  .impact-grid{grid-template-columns:1fr 1fr}
+  .footer-top{grid-template-columns:1fr}
+  .footer-bot{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ MOBILE MENU ══════════ -->
+<div class="mob" id="mob">
+  <button class="mob-x" id="mobx" aria-label="Close">✕</button>
+  <a href="#how" onclick="closeMob()">How It Works</a>
+  <a href="#impact" onclick="closeMob()">Our Impact</a>
+  <a href="#founders" onclick="closeMob()">Our Story</a>
+  <a href="#donate" onclick="closeMob()">Get Involved</a>
+  <a href="#donate" onclick="closeMob()" style="background:var(--orange);color:#fff;padding:.8rem 2.2rem;border-radius:50px;font-family:var(--fd);letter-spacing:.05em;margin-top:1rem">Donate Shoes</a>
+</div>
+
+<!-- ══════════ NAV ══════════ -->
+<nav id="nav">
+  <div class="nav-left">
+    <a href="#hero">
+      <img src="rooted-soles-logo.png" alt="Rooted Soles" class="nav-logo" width="76" height="76"/>
+    </a>
+    <a href="#hero" class="nav-brand">
+      <span class="nav-name">Rooted Soles</span>
+      <span class="nav-tag">Turning Old Shoes into New Beginnings</span>
+    </a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#impact">Our Impact</a></li>
+    <li><a href="#founders">Our Story</a></li>
+    <li><a href="#donate">Get Involved</a></li>
+    <li><a href="#donate" class="nav-cta">Donate Shoes</a></li>
+  </ul>
+  <button class="nav-ham" id="ham" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <div class="hero-topbar"></div>
+  <div class="hero-inner">
+    <!-- LEFT: copy -->
+    <div class="hero-left">
+      <div class="hero-eyebrow"><div class="hero-eyebrow-dot"></div>Delaware · Founded 2024</div>
+      <h1 class="hero-h1">
+        <span class="line1">Every Pair</span>
+        <span class="line2">Grows a Tree.</span>
+      </h1>
+      <p class="hero-p">Donate your used sneakers. We sell them to partner organizations and use every dollar to plant native trees across Delaware through Deep Roots Foundation.</p>
+      <div class="hero-btns">
+        <a href="#donate" class="btn-orange">👟 Donate Your Shoes</a>
+        <a href="#how" class="btn-ghost-w">See How It Works</a>
+      </div>
+      <div class="hero-nums">
+        <div class="hn-item">
+          <div class="hn-val" data-count="300">0</div>
+          <div class="hn-lbl">Pairs Collected</div>
+        </div>
+        <div class="hn-item">
+          <div class="hn-val" data-count="115">0</div>
+          <div class="hn-lbl">Trees Planted</div>
+        </div>
+        <div class="hn-item">
+          <div class="hn-val" data-count="100">0</div>
+          <div class="hn-lbl">% to Impact</div>
+        </div>
+      </div>
+    </div>
+    <!-- RIGHT: logo -->
+    <div class="hero-right">
+      <div class="hero-glow-ring"></div>
+      <div class="hero-img-wrap">
+        <img src="rooted-soles-logo.png" alt="Rooted Soles" class="hero-logo-big"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MARQUEE ══════════ -->
+<div class="mq-band" aria-hidden="true">
+  <div class="mq-track">
+    <span>Turning Old Shoes into New Beginnings</span><span class="mq-dot">✦</span>
+    <span>Rooted Soles</span><span class="mq-dot">✦</span>
+    <span>Every Pair Grows a Tree</span><span class="mq-dot">✦</span>
+    <span>Donate · Partner · Plant</span><span class="mq-dot">✦</span>
+    <span>Delaware</span><span class="mq-dot">✦</span>
+    <span>Deep Roots Foundation</span><span class="mq-dot">✦</span>
+    <span>Turning Old Shoes into New Beginnings</span><span class="mq-dot">✦</span>
+    <span>Rooted Soles</span><span class="mq-dot">✦</span>
+    <span>Every Pair Grows a Tree</span><span class="mq-dot">✦</span>
+    <span>Donate · Partner · Plant</span><span class="mq-dot">✦</span>
+    <span>Delaware</span><span class="mq-dot">✦</span>
+    <span>Deep Roots Foundation</span><span class="mq-dot">✦</span>
+  </div>
+</div>
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section id="how">
+  <div class="wrap">
+    <div class="how-top">
+      <div class="reveal">
+        <div class="tag">How It Works</div>
+        <h2 class="sh">Simple Steps,<br><em>Real Impact</em></h2>
+      </div>
+      <p class="sp reveal d1">From your closet to a living tree in Delaware — four easy steps, zero complications. Just drop off your shoes and we handle everything.</p>
+    </div>
+    <div class="steps-row">
+      <div class="step-card reveal">
+        <div class="step-n">1</div>
+        <div class="step-ico">👟</div>
+        <div class="step-t">Donate Shoes</div>
+        <div class="step-d">Drop off at a collection event — or we'll come to you. All types and conditions welcome, we handle the rest.</div>
+      </div>
+      <div class="step-card reveal d1">
+        <div class="step-n">2</div>
+        <div class="step-ico">📦</div>
+        <div class="step-t">We Sort & Pack</div>
+        <div class="step-d">We organize every donation and prepare shipments for our established partner network.</div>
+      </div>
+      <div class="step-card reveal d2">
+        <div class="step-n">3</div>
+        <div class="step-ico">💵</div>
+        <div class="step-t">Partners Pay Us</div>
+        <div class="step-d">Our partner organizations purchase the shoes directly, paying Rooted Soles per pair collected.</div>
+      </div>
+      <div class="step-card reveal d3">
+        <div class="step-n">4</div>
+        <div class="step-ico">🌳</div>
+        <div class="step-t">Trees Get Planted</div>
+        <div class="step-d">Every dollar goes to Deep Roots Foundation, planting native Delaware trees in your community.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ IMPACT ══════════ -->
+<section id="impact">
+  <div class="wrap impact-wrap">
+    <div class="impact-top reveal">
+      <div class="tag">Our Impact</div>
+      <h2 class="sh">Numbers That<br><em>Matter</em></h2>
+      <p class="sp">Every number below represents a real shoe collected, a real dollar raised, a real tree planted somewhere in Delaware.</p>
+    </div>
+    <div class="impact-grid">
+      <div class="imp-card reveal">
+        <div class="imp-n" data-count="300">0</div>
+        <div class="imp-l">Pairs of Shoes Collected</div>
+      </div>
+      <div class="imp-card reveal d1">
+        <div class="imp-n" data-count="115">0</div>
+        <div class="imp-l">Trees Planted in Delaware</div>
+      </div>
+      <div class="imp-card reveal d2">
+        <div class="imp-n" data-count="100">0</div>
+        <div class="imp-l">% of Proceeds to Impact</div>
+      </div>
+      <div class="imp-card reveal d3">
+        <div class="imp-n" data-count="0">0</div>
+        <div class="imp-l">Shoes Sent to Landfill</div>
+      </div>
+    </div>
+    <div class="why-row">
+      <div class="why-card reveal">
+        <div class="why-ico">🗑️</div>
+        <div class="why-t">Keeps Shoes Out of Landfills</div>
+        <div class="why-d">Over 300 million pairs of shoes are thrown away in the U.S. every year. Synthetic materials take decades to break down, leaching toxins into soil and water.</div>
+      </div>
+      <div class="why-card reveal d1">
+        <div class="why-ico">🌳</div>
+        <div class="why-t">Funds Real Reforestation</div>
+        <div class="why-d">Proceeds fund native Delaware tree planting through Deep Roots Foundation, partnered with DNREC and the Tree for Every Delawarean Initiative.</div>
+      </div>
+      <div class="why-card reveal d2">
+        <div class="why-ico">⚡</div>
+        <div class="why-t">Youth-Driven Change</div>
+        <div class="why-d">Founded and operated by young people proving that you don't need a boardroom to create real environmental impact. Just a good idea and the will to act.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-cards">
+          <div class="acard reveal">
+            <div class="acard-ico">👟</div>
+            <div class="acard-t">Collect</div>
+            <div class="acard-d">We gather used sneakers from schools, neighborhoods, and community drives across Delaware.</div>
+          </div>
+          <div class="acard reveal d1">
+            <div class="acard-ico">🤝</div>
+            <div class="acard-t">Sell to Partners</div>
+            <div class="acard-d">Shoes go to established partner organizations who pay us directly for every pair.</div>
+          </div>
+          <div class="acard reveal d2">
+            <div class="acard-ico">💰</div>
+            <div class="acard-t">Raise Funds</div>
+            <div class="acard-d">Every dollar earned from partner sales is directed straight into tree-planting programs.</div>
+          </div>
+          <div class="acard reveal d3">
+            <div class="acard-ico">🌱</div>
+            <div class="acard-t">Plant Trees</div>
+            <div class="acard-d">Deep Roots Foundation plants native trees in Delaware parks, roads, and neighborhoods.</div>
+          </div>
+        </div>
+        <div class="about-badge reveal d4">
+          <div class="bn">100%</div>
+          <div class="bl">Proceeds to Impact</div>
+        </div>
+      </div>
+      <div class="reveal d1">
+        <div class="tag">What Is Rooted Soles?</div>
+        <h2 class="sh">A Mission That<br><em>Grows</em> With Every Pair</h2>
+        <p class="sp">Rooted Soles was founded on a simple idea: our old sneakers shouldn't end up in a landfill. They should help grow a tree. We collect donated footwear, sell it to partner organizations, and send every dollar to Deep Roots Foundation — a 501(c)(3) nonprofit planting trees across Delaware.</p>
+        <br/>
+        <p class="sp">No overhead fluff. No bureaucracy. Just shoes in, trees out.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOUNDERS ══════════ -->
+<section id="founders">
+  <div class="wrap">
+    <div class="founders-top reveal">
+      <div class="tag" style="justify-content:center">Our Story</div>
+      <h2 class="sh" style="text-align:center">Two Founders.<br><em>One Mission.</em></h2>
+      <p class="sp">Two siblings, two organizations, working in perfect tandem. Rooted Soles generates the funding. Deep Roots Foundation plants the trees.</p>
+    </div>
+    <div class="founders-grid">
+      <!-- Aadhya -->
+      <div class="founder-card reveal">
+        <div class="founder-banner"></div>
+        <div class="founder-body">
+          <div class="founder-avatar">🌱</div>
+          <div class="founder-role">Founder &amp; CEO · Rooted Soles</div>
+          <div class="founder-name">Aadhya</div>
+          <p class="founder-quote">I started Rooted Soles because I kept seeing perfectly good shoes get thrown away. I thought — what if we connected that waste to something meaningful? One pair of shoes, one tree. That idea felt worth building.</p>
+          <div class="founder-feat">
+            <div class="ff"><div class="ff-dot">✓</div><div class="ff-txt"><strong>Founded in 7th grade</strong> — proving real action doesn't wait for permission.</div></div>
+            <div class="ff"><div class="ff-dot">✓</div><div class="ff-txt"><strong>100% transparent</strong> — all proceeds fund Deep Roots Foundation directly.</div></div>
+            <div class="ff"><div class="ff-dot">✓</div><div class="ff-txt"><strong>Community-rooted</strong> — drives held at schools and local events across Delaware.</div></div>
+          </div>
+        </div>
+      </div>
+      <!-- Dhruv -->
+      <div class="founder-card dark reveal d1">
+        <div class="founder-banner"></div>
+        <div class="founder-body">
+          <div class="founder-avatar">🌳</div>
+          <div class="founder-role">Co-Founder · Deep Roots Foundation</div>
+          <div class="founder-name">Dhruv Pratapagiri</div>
+          <p class="founder-quote">Deep Roots started with planting 10 trees on Earth Day. Now we've planted 115+ trees across Delaware. Rooted Soles gives us the funding to keep growing — together we're building something real.</p>
+          <div class="founder-feat" style="margin-top:1.5rem">
+            <div class="ff"><div class="ff-dot" style="background:rgba(249,200,70,.15);color:var(--yellow)">✓</div><div class="ff-txt" style="color:rgba(255,255,255,.6)"><strong style="color:#fff">501(c)(3) nonprofit</strong> — Tower Hill School, Wilmington, Delaware.</div></div>
+            <div class="ff"><div class="ff-dot" style="background:rgba(249,200,70,.15);color:var(--yellow)">✓</div><div class="ff-txt" style="color:rgba(255,255,255,.6)"><strong style="color:#fff">115+ trees planted</strong> — Valley Rd, Summit Bridge Rd, and more.</div></div>
+            <div class="ff"><div class="ff-dot" style="background:rgba(249,200,70,.15);color:var(--yellow)">✓</div><div class="ff-txt" style="color:rgba(255,255,255,.6)"><strong style="color:#fff">DNREC partner</strong> — supporting the Tree for Every Delawarean Initiative.</div></div>
+          </div>
+          <a href="https://www.thedeeproots.org" target="_blank" rel="noopener" class="cf-link">Visit Deep Roots Foundation →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PARTNERS ══════════ -->
+<section id="partner">
+  <div class="wrap">
+    <div class="partner-center">
+      <div class="reveal">
+        <div class="tag" style="justify-content:center">Partners &amp; Network</div>
+        <h2 class="sh" style="text-align:center">The Organizations<br><em>Behind the Mission</em></h2>
+        <p class="sp">We work with established organizations to make sure every shoe donated reaches its highest-impact destination.</p>
+      </div>
+      <div class="chips reveal d1">
+        <div class="chip feat"><span class="cd"></span>Deep Roots Foundation</div>
+        <div class="chip"><span class="cd"></span>DNREC Delaware</div>
+        <div class="chip"><span class="cd"></span>Tree for Every Delawarean (TEDI)</div>
+        <div class="chip"><span class="cd"></span>Soles4Souls</div>
+        <div class="chip"><span class="cd"></span>Nike Reuse-A-Shoe</div>
+        <div class="chip"><span class="cd"></span>Delaware Schools &amp; PTAs</div>
+        <div class="chip"><span class="cd"></span>Community Organizations</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ DONATE / GET INVOLVED ══════════ -->
+<section id="donate">
+  <div class="wrap">
+    <div class="donate-grid">
+      <div>
+        <div class="reveal">
+          <div class="tag">Get Involved</div>
+          <h2 class="sh">Three Ways to<br><em>Make a Difference</em></h2>
+          <p class="sp">A pair of shoes. An hour of your time. A few dollars. Any one of these makes a real, measurable impact.</p>
+        </div>
+        <div class="donate-ways">
+          <div class="way reveal d1">
+            <div class="way-ico">👟</div>
+            <div>
+              <div class="way-t">Donate Your Shoes</div>
+              <div class="way-d">Drop off used sneakers at a collection event or arrange a pickup. All conditions accepted — we handle the rest.</div>
+            </div>
+          </div>
+          <div class="way reveal d2">
+            <div class="way-ico">🤝</div>
+            <div>
+              <div class="way-t">Volunteer With Us</div>
+              <div class="way-d">Help organize collection drives or spread the word. Youth volunteers especially welcome!</div>
+            </div>
+          </div>
+          <div class="way reveal d3">
+            <div class="way-ico">💚</div>
+            <div>
+              <div class="way-t">Donate Funds</div>
+              <div class="way-d">Financial contributions go directly toward tree purchases and planting events through Deep Roots Foundation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="cc">
+          <div class="cc-t">Get in Touch</div>
+          <div class="cc-s">Tell us how you'd like to help and we'll respond within 48 hours.</div>
+          <form onsubmit="doSub(event)">
+            <div class="fg"><label class="fl" for="fn">Your Name</label><input class="fi" id="fn" type="text" placeholder="First and last name" required/></div>
+            <div class="fg"><label class="fl" for="fe">Email Address</label><input class="fi" id="fe" type="email" placeholder="you@email.com" required/></div>
+            <div class="fg">
+              <label class="fl" for="fh">How Can You Help?</label>
+              <select class="fsel fi" id="fh">
+                <option value="">Select an option...</option>
+                <option>Donate Shoes</option>
+                <option>Volunteer</option>
+                <option>Donate Funds</option>
+                <option>Host a Collection Drive</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="fg"><label class="fl" for="fm">Message (optional)</label><textarea class="fta" id="fm" placeholder="Tell us more..."></textarea></div>
+            <button type="submit" class="fsub" id="fsub">Send Message 🌱</button>
+            <p class="fnote">Your information is never shared. We'll reply within 48 hours.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div class="reveal">
+        <div class="tag">FAQ</div>
+        <h2 class="sh">Got<br><em>Questions?</em></h2>
+        <p class="sp">We've got answers. If yours isn't here, use the contact form above.</p>
+      </div>
+      <div class="faq-list reveal d1">
+        <div class="fitem">
+          <div class="fq">What types of shoes do you accept?<div class="fchev">▾</div></div>
+          <div class="fa"><div class="fai">We accept all types of sneakers and footwear in any condition. We sort donations and send them to our partner organizations who pay us directly per pair.</div></div>
+        </div>
+        <div class="fitem">
+          <div class="fq">Where do I drop off my shoes?<div class="fchev">▾</div></div>
+          <div class="fa"><div class="fai">We run collection drives at schools and community events across Delaware. Use the contact form to find the nearest drop-off or arrange a pickup for larger donations.</div></div>
+        </div>
+        <div class="fitem">
+          <div class="fq">How does the money actually reach the trees?<div class="fchev">▾</div></div>
+          <div class="fa"><div class="fai">Partner organizations pay Rooted Soles for every pair of shoes we send them. That money flows directly to Deep Roots Foundation, a registered 501(c)(3), which purchases and plants native Delaware trees.</div></div>
+        </div>
+        <div class="fitem">
+          <div class="fq">Can my school host a collection drive?<div class="fchev">▾</div></div>
+          <div class="fa"><div class="fai">Absolutely — school partnerships are our favorite! We provide collection boxes, flyers, and full guidance. Just reach out through the contact form to get started.</div></div>
+        </div>
+        <div class="fitem">
+          <div class="fq">Is my financial donation tax-deductible?<div class="fchev">▾</div></div>
+          <div class="fa"><div class="fai">Financial donations to Deep Roots Foundation are tax-deductible as it is a registered 501(c)(3). We can provide documentation upon request.</div></div>
+        </div>
+        <div class="fitem">
+          <div class="fq">How can I follow your progress?<div class="fchev">▾</div></div>
+          <div class="fa"><div class="fai">Check back on this site for updates on trees planted, shoes collected, and upcoming events. You can also sign up for updates through the contact form.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CTA BANNER ══════════ -->
+<section id="cta">
+  <div class="cta-wrap reveal">
+    <h2 class="cta-h">Your Old Shoes.<br>Real New Trees.</h2>
+    <p class="cta-p">It takes 30 seconds. Grab those sneakers from your closet and help us grow Delaware's green future — one pair at a time.</p>
+    <div class="cta-btns">
+      <a href="#donate" class="btn-white">👟 Donate Your Shoes</a>
+      <a href="https://www.thedeeproots.org" target="_blank" rel="noopener" class="btn-ghost-o">🌳 See the Trees We Plant</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="fbrand">
+        <img src="rooted-soles-logo.png" alt="Rooted Soles" class="fbrand-logo" width="52" height="52"/>
+        <span class="fbrand-name">Rooted Soles</span>
+      </div>
+      <p class="ftag">Turning Old Shoes into New Beginnings. Based in Delaware — funding tree planting through sneaker collection and partner sales.</p>
+    </div>
+    <div>
+      <div class="fct">Navigate</div>
+      <div class="fcl">
+        <a href="#how">How It Works</a>
+        <a href="#impact">Our Impact</a>
+        <a href="#about">About Us</a>
+        <a href="#founders">Our Story</a>
+      </div>
+    </div>
+    <div>
+      <div class="fct">Get Involved</div>
+      <div class="fcl">
+        <a href="#donate">Donate Shoes</a>
+        <a href="#donate">Volunteer</a>
+        <a href="#donate">Host a Drive</a>
+        <a href="#donate">Contact Us</a>
+      </div>
+    </div>
+    <div>
+      <div class="fct">Partners</div>
+      <div class="fcl">
+        <a href="https://www.thedeeproots.org" target="_blank" rel="noopener">Deep Roots Foundation</a>
+        <a href="#partner">DNREC Delaware</a>
+        <a href="#partner">TEDI Initiative</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <p>© 2025 Rooted Soles. Based in Delaware. <span class="fhrt">♥</span> Made with purpose.</p>
+    <p>Partner nonprofit: <a href="https://www.thedeeproots.org" target="_blank" rel="noopener">Deep Roots Foundation (501c3)</a></p>
+  </div>
+</footer>
+
+<script>
+// Nav shrink on scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('shrunk',scrollY>60),{passive:true});
+
+// Mobile menu
+document.getElementById('ham').onclick=()=>{document.getElementById('mob').classList.add('on');document.body.style.overflow='hidden'};
+document.getElementById('mobx').onclick=closeMob;
+function closeMob(){document.getElementById('mob').classList.remove('on');document.body.style.overflow=''}
+
+// Scroll reveal
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Count-up animation
+function countUp(el,target,dur=1800){
+  if(target===0){el.textContent='0';return}
+  let s=0,step=target/(dur/16);
+  const t=setInterval(()=>{
+    s=Math.min(s+step,target);
+    el.textContent=Math.floor(s)+(target===100?'%':'+');
+    if(s>=target)clearInterval(t);
+  },16);
+}
+const cobs=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){countUp(e.target,+e.target.dataset.count);cobs.unobserve(e.target)}
+}),{threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el=>cobs.observe(el));
+
+// FAQ accordion
+document.querySelectorAll('.fq').forEach(q=>{
+  q.onclick=()=>{
+    const it=q.parentElement,was=it.classList.contains('open');
+    document.querySelectorAll('.fitem.open').forEach(i=>i.classList.remove('open'));
+    if(!was)it.classList.add('open');
+  }
+});
+
+// Form submit
+function doSub(e){
+  e.preventDefault();
+  const b=document.getElementById('fsub');
+  b.textContent='✓ Message Sent!';
+  b.style.background='var(--green)';
+  setTimeout(()=>{b.textContent='Send Message 🌱';b.style.background='';e.target.reset()},3500);
+}
+</script>
+</body>
+</html>
