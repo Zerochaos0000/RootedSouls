@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blackston Cove Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: Hellings Builders' brand (navy, gold, classic serif, spaced caps) applied to a simple community page: photo, homes, clickable site plan, gallery, builder story, pricing, contact. */
+:root{
+  --bg:#faf8f4; --white:#ffffff; --navy:#15202b; --ink:#1b2129; --muted:#5f666e; --line:#e6e1d7;
+  --gold:#cda96e; --gold-deep:#a8844a; --night:#0f161d;
+  --t0:#5b9277; --t25:#7ea6c4; --t50:#cda96e; --t75:#7d5ba6;
+  --display:"Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --body:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+body.locked{overflow:hidden}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.02;margin:0;text-wrap:balance;color:var(--navy)}
+h2{font-size:clamp(2.4rem,4.8vw,3.6rem)}
+p{margin:0}
+a{color:inherit}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,36px)}
+.kicker{font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;font-weight:600;color:var(--gold-deep)}
+.sub{color:var(--muted);max-width:60ch;font-size:1.05rem}
+section{padding:clamp(64px,8vw,104px) 0}
+.head{display:grid;gap:12px;margin-bottom:38px}
+.rule{width:56px;height:2px;background:var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;font-weight:600;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;border:1px solid transparent;border-radius:2px;transition:background .2s,color .2s,border-color .2s}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover{background:#22303f}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:#d9b97f}
+.btn-ghost{border-color:rgba(255,255,255,.75);color:#fff}
+.btn-ghost:hover{background:#fff;color:var(--navy)}
+
+/* ---------- Logo ---------- */
+.bc-logo{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:#fff}
+.bc-logo svg.mark{width:30px;height:44px;flex:none}
+.bc-logo .words{display:grid;line-height:1}
+.bc-logo .name{font-family:var(--display);font-weight:600;font-size:1.65rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.bc-logo .name span{font-size:1.2em}
+.bc-logo .by{font-size:.58rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-top:5px;font-weight:600;white-space:nowrap}
+
+.hl-logo{display:inline-flex;align-items:center;text-decoration:none}
+.hl-logo img{height:54px;width:auto;display:block}
+.nav .hl-logo .on-light{display:none}
+.nav.solid .hl-logo .on-light{display:block}
+.nav.solid .hl-logo .on-dark{display:none}
+@media (max-width:560px){.hl-logo img{height:42px}}
+/* ---------- Nav ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:40;transition:background .3s, box-shadow .3s}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:84px;gap:20px}
+.nav.solid{background:rgba(255,255,255,.97);box-shadow:0 1px 0 var(--line);backdrop-filter:blur(8px)}
+.nav.solid .bc-logo{color:var(--navy)}
+.menu{display:flex;align-items:center;gap:4px}
+.menu a.item{white-space:nowrap;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;text-decoration:none;color:#fff;padding:9px 12px;border:1px solid transparent;transition:border-color .2s,color .2s}
+.menu a.item:hover{border-color:currentColor}
+.nav.solid .menu a.item{color:var(--navy)}
+.menu .btn{white-space:nowrap;padding:10px 18px;font-size:.7rem;margin-left:6px}
+.nav:not(.solid) .menu .btn-gold{background:transparent;color:#fff;border-color:var(--gold)}
+.nav:not(.solid) .menu .btn-gold:hover{background:var(--gold);color:var(--navy)}
+.burger{width:44px;height:44px;display:grid;place-items:center;background:transparent;border:1px solid rgba(255,255,255,.55);border-radius:2px;margin-left:6px}
+.nav.solid .burger{border-color:var(--line)}
+.burger span{display:block;width:18px;height:1.5px;background:#fff;box-shadow:0 -6px 0 #fff,0 6px 0 #fff}
+.nav.solid .burger span{background:var(--navy);box-shadow:0 -6px 0 var(--navy),0 6px 0 var(--navy)}
+@media (max-width:1300px){.menu a.item{display:none}}
+@media (max-width:560px){.menu .btn{display:none}.bc-logo .name{font-size:1.3rem}}
+
+/* full-screen menu */
+.overlay{position:fixed;inset:0;z-index:60;background:var(--navy);color:#fff;display:grid;grid-template-columns:1.3fr 1fr;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.overlay.open{opacity:1;visibility:visible}
+.overlay .left{padding:clamp(28px,6vw,80px);display:flex;flex-direction:column;justify-content:center;gap:6px}
+.overlay .left a{font-family:var(--display);font-weight:500;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.15;text-decoration:none;color:#fff;display:flex;align-items:baseline;gap:18px;transition:color .2s}
+.overlay .left a small{font-family:var(--body);font-size:.72rem;letter-spacing:.2em;color:var(--gold);width:2.2em}
+.overlay .left a:hover{color:var(--gold)}
+.overlay .right{background:#1c2936;padding:clamp(28px,5vw,64px);display:flex;flex-direction:column;gap:26px;justify-content:center}
+.overlay .right h4{margin:0 0 10px;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.overlay .right ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.overlay .right a{color:#fff;text-decoration:none;opacity:.85}
+.overlay .right a:hover{opacity:1;text-decoration:underline}
+.overlay .right .hl{width:170px}
+.overlay .close{position:absolute;top:22px;right:clamp(16px,4vw,36px);width:44px;height:44px;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;font-size:1.6rem;line-height:1;border-radius:2px}
+@media (max-width:800px){.overlay{grid-template-columns:1fr;overflow:auto}.overlay .right{padding-bottom:48px}}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:max(420px,calc(100vh - var(--facts-h,118px)));display:flex;align-items:flex-end;color:#fff;background:var(--night)}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,18,26,.74) 0%,rgba(12,18,26,.35) 45%,rgba(12,18,26,0) 72%),linear-gradient(180deg,rgba(12,18,26,.55) 0%,rgba(12,18,26,0) 22%,rgba(12,18,26,0) 55%,rgba(12,18,26,.7) 100%)}
+.hero .wrap{position:relative;z-index:1;width:100%;padding-top:104px;padding-bottom:clamp(28px,5vh,48px);display:grid;gap:clamp(10px,2.1vh,20px)}
+.hero .kicker{color:var(--gold)}
+.hero h1{font-size:clamp(3rem,min(10vw,12vh),8rem);color:#fff;font-weight:500;letter-spacing:.01em}
+.hero p{font-size:1.18rem;max-width:44ch;color:rgba(255,255,255,.9)}
+.hero .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.hero .meta{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:14px}
+.hero .price{font-family:var(--display);font-size:1.9rem;line-height:1}
+.hero .price small{font-family:var(--body);font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:6px}
+.hero .by{display:flex;align-items:center;gap:12px;padding-left:22px;border-left:1px solid rgba(255,255,255,.3);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.hero .by img{height:30px;width:auto}
+
+/* facts */
+.facts{background:var(--navy);color:#fff}
+@supports (height:100svh){.hero{min-height:max(420px,calc(100svh - var(--facts-h,118px)))}}
+.facts .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.fact{padding:28px 22px;border-left:1px solid rgba(255,255,255,.12)}
+.fact:first-child{border-left:0;padding-left:0}
+.fact b{display:block;font-family:var(--display);font-weight:500;font-size:2.5rem;line-height:1;color:var(--gold)}
+.fact span{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+@media (max-width:760px){.facts .wrap{grid-template-columns:1fr 1fr}.fact:nth-child(3){border-left:0;padding-left:0}.fact{padding-left:20px}}
+
+/* homes */
+.homes{display:grid;grid-template-columns:repeat(6,1fr);gap:22px}
+.home{grid-column:span 2;background:#fff;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column;transition:transform .25s, box-shadow .25s}
+.home:nth-child(4),.home:nth-child(5){grid-column:span 3}
+.home:hover{transform:translateY(-4px);box-shadow:0 24px 40px -24px rgba(21,32,43,.45)}
+.home .pic{aspect-ratio:2/1;overflow:hidden;background:#dfe6ea}
+.home .pic img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.home:hover .pic img{transform:scale(1.04)}
+.home .body{padding:20px 22px 22px;display:grid;gap:10px;flex:1}
+.home .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.home h3{font-size:2rem}
+.home .from{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-align:right;white-space:nowrap}
+.home .from b{display:block;font-size:1.15rem;letter-spacing:0;color:var(--navy);font-variant-numeric:tabular-nums}
+.specs{display:flex;flex-wrap:wrap;gap:14px;font-size:.84rem;color:var(--muted)}
+.specs span b{color:var(--navy);font-weight:600}
+.home .links{display:flex;gap:18px;margin-top:4px;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+.home .links a,.home .links button{background:none;border:0;padding:0 0 3px;border-bottom:1px solid var(--gold);text-decoration:none;color:var(--navy);letter-spacing:inherit;text-transform:inherit;font-size:inherit;font-weight:inherit}
+@media (max-width:900px){.homes{grid-template-columns:1fr 1fr}.home,.home:nth-child(4),.home:nth-child(5){grid-column:span 1}}
+@media (max-width:560px){.homes{grid-template-columns:1fr}}
+
+/* site plan */
+#plan{background:var(--night);color:#eef1ee}
+#plan .sub{color:rgba(238,241,238,.72)}
+#plan h2{color:#fff}
+#plan .kicker{color:var(--gold)}
+.plan{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:24px;align-items:start}
+@media (max-width:980px){.plan{grid-template-columns:1fr}}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1px solid rgba(255,255,255,.22);background:transparent;color:#eef1ee;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;border-radius:2px}
+.chip[aria-pressed="true"]{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.dot{width:10px;height:10px;border-radius:50%}
+.map{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.12)}
+.map{background:#fff}
+.map img{width:100%;height:auto}
+.road{pointer-events:none}
+.road rect{fill:#15202b}
+.road text{font:700 21px var(--body);letter-spacing:3px;fill:#fff;text-anchor:middle;dominant-baseline:central}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.spot{cursor:pointer;transition:opacity .2s}
+.spot circle{stroke:#fff;stroke-width:4}
+.spot text.sold{font-size:20px;letter-spacing:3px}
+.spot text{font:700 30px var(--body);fill:#fff;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.spot:hover circle,.spot:focus circle{r:44}
+.spot.on circle{stroke:var(--gold);stroke-width:9;r:46}
+.spot.dim{opacity:.25}
+.spot:focus{outline:none}
+.note{font-size:.78rem;color:rgba(238,241,238,.6);margin-top:10px}
+.card{background:#fff;color:var(--ink);padding:24px;display:grid;gap:14px;position:sticky;top:100px;border-top:3px solid var(--gold)}
+.card h3{font-size:2.5rem}
+.card .row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.card .kicker{color:var(--gold-deep)}
+.prem{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#fff;padding:5px 10px}
+.card label{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600;display:grid;gap:6px}
+.card select{font:inherit;font-size:.95rem;padding:10px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);text-transform:none;letter-spacing:0;font-weight:500;border-radius:2px}
+.total{background:var(--bg);padding:14px 16px}
+.total small{display:block;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.total b{font-family:var(--display);font-weight:600;font-size:2.4rem;color:var(--navy);font-variant-numeric:tabular-nums;line-height:1.1}
+.total .calc{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.card .hint{font-size:.85rem;color:var(--muted)}
+.card .btn{width:100%}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:210px;gap:12px}
+.gallery figure.big{grid-column:span 2;grid-row:span 2}
+.gallery{grid-auto-rows:clamp(170px,17vw,240px)}
+.gallery figure:nth-child(n+6){display:none}
+.gallery figure:nth-child(5) .more{position:absolute;inset:0;z-index:2;display:grid;place-items:center;align-content:center;gap:4px;background:rgba(21,32,43,.62);color:#fff;text-align:center;transition:background .25s}
+.gallery figure:nth-child(5):hover .more{background:rgba(21,32,43,.78)}
+.gallery .more b{font-family:var(--display);font-size:2.4rem;font-weight:600;line-height:1}
+.gallery .more span{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--gold)}
+.gallery figure:nth-child(5) .zi{display:none}
+.gallery figure{margin:0;overflow:hidden;position:relative;background:#ddd}
+.gallery img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.gallery figure:hover img{transform:scale(1.04)}
+.gallery figcaption{position:absolute;left:14px;bottom:12px;color:#fff;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+@media (max-width:820px){.gallery{grid-template-columns:1fr 1fr;grid-auto-rows:150px}}
+.standard{margin-top:28px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;background:var(--navy);color:#fff;padding:26px 30px;border-top:3px solid var(--gold)}
+.standard b{font-family:var(--display);font-size:1.8rem;font-weight:600;display:block;line-height:1.1}
+.standard span{color:rgba(255,255,255,.75);font-size:.95rem}
+.ross{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,4vw,48px);align-items:center;margin-top:clamp(48px,6vw,72px);background:var(--bg);padding:clamp(18px,3vw,28px)}
+@media (max-width:820px){.ross{grid-template-columns:1fr}}
+.ross h3{font-size:2.2rem}
+.ross p{color:var(--muted);margin-top:10px;max-width:46ch}
+.faq .vids{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px;max-width:620px}
+@media (max-width:560px){.faq .vids{grid-template-columns:1fr}}
+.faq .vids .video b{font-size:.88rem}
+.faq .pdf{display:inline-flex;margin-top:12px;padding:10px 18px;border:1px solid var(--gold);color:var(--navy);text-decoration:none;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+.faq .pdf:hover{background:var(--gold)}
+
+/* builder */
+#builder{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.builder{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);align-items:start}
+@media (max-width:900px){.builder{grid-template-columns:1fr}}
+.builder .hl{width:230px;margin-bottom:22px}
+.builder p.lead{font-family:var(--display);font-size:1.7rem;line-height:1.3;color:var(--navy);font-weight:500}
+.builder p.copy{color:var(--muted);margin-top:16px;max-width:56ch}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:28px;border-top:1px solid var(--line)}
+.stats div{padding:18px 16px 0 0}
+.stats b{display:block;font-family:var(--display);font-size:2.4rem;line-height:1;color:var(--navy);font-weight:600}
+.stats span{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.steps{list-style:none;margin:0;padding:0;display:grid;counter-reset:s}
+.steps li{display:grid;grid-template-columns:64px 1fr;gap:6px 18px;padding:20px 0;border-bottom:1px solid var(--line);counter-increment:s}
+.steps li:first-child{border-top:1px solid var(--line)}
+.steps li::before{content:"0" counter(s);font-family:var(--display);font-size:2.4rem;line-height:1;color:var(--gold);grid-row:span 2}
+.steps b{font-family:var(--display);font-size:1.45rem;font-weight:600;color:var(--navy);line-height:1.1}
+.steps span{color:var(--muted);font-size:.93rem}
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:clamp(48px,6vw,72px)}
+@media (max-width:820px){.quotes{grid-template-columns:1fr}}
+.quote{background:var(--bg);padding:28px;border-left:3px solid var(--gold);display:grid;gap:14px}
+.quote p{font-family:var(--display);font-style:italic;font-size:1.5rem;line-height:1.25;color:var(--navy)}
+.quote cite{font-style:normal;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* price table */
+.ptable{background:#fff;overflow-x:auto;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;min-width:560px}
+th,td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:.95rem}
+th{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:#fff;font-weight:600;background:var(--navy)}
+td.num,th.num{text-align:right}
+tr:last-child td{border-bottom:0}
+td b{font-weight:600;color:var(--navy)}
+.fine{font-size:.82rem;color:var(--muted);margin-top:12px}
+
+
+/* gallery hover + lightbox */
+.gallery figure{cursor:zoom-in}
+.gallery figure::after{content:"";position:absolute;inset:0;background:rgba(12,18,26,0);transition:background .3s;pointer-events:none}
+.gallery figure:hover::after,.gallery figure:focus-visible::after{background:rgba(12,18,26,.28)}
+.gallery .zi{position:absolute;right:14px;bottom:14px;z-index:1;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s;pointer-events:none}
+.gallery .zi svg{width:18px;height:18px;stroke:var(--navy)}
+.gallery figure:hover .zi,.gallery figure:focus-visible .zi{opacity:1;transform:none}
+.gallery figure:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.lb{position:fixed;inset:0;z-index:80;background:rgba(10,15,21,.95);display:grid;grid-template-rows:1fr auto;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.lb.open{opacity:1;visibility:visible}
+.lb .stage{display:grid;place-items:center;padding:64px 84px 8px;min-height:0}
+.lb img{max-width:min(1200px,100%);max-height:100%;object-fit:contain;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.lb .bar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px clamp(16px,4vw,40px) 24px;color:#fff}
+.lb .cap{font-family:var(--display);font-size:1.4rem}
+.lb .count{font-size:.72rem;letter-spacing:.24em;color:var(--gold);font-weight:700;font-variant-numeric:tabular-nums}
+.lb button{position:absolute;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.35);color:#fff;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;transition:background .2s}
+.lb button:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.lb button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
+.lb .x{top:18px;right:18px}
+.lb .prev{left:18px;top:50%;transform:translateY(-50%)}
+.lb .next{right:18px;top:50%;transform:translateY(-50%)}
+@media (max-width:700px){.lb .stage{padding:64px 12px 8px}.lb .prev,.lb .next{top:auto;bottom:76px;transform:none}}
+/* quick delivery */
+#quick{padding:clamp(48px,6vw,72px) 0;background:#fff;border-bottom:1px solid var(--line)}
+.qd{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+@media (max-width:860px){.qd{grid-template-columns:1fr}}
+
+.qd .card2{display:flex;flex-direction:column;background:var(--navy);box-shadow:0 24px 50px -30px rgba(21,32,43,.6)}
+.qd .pic{position:relative;overflow:hidden;display:block;background:#dfe6ea}
+.qd .pic img{width:100%;height:auto;display:block;transition:transform .6s}
+.qd .pic:hover img{transform:scale(1.03)}
+.qd .stats4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.qd .stats4 div{padding:18px 20px;border-left:1px solid rgba(255,255,255,.12);display:grid;gap:4px}
+.qd .stats4 div:first-child{border-left:0}
+.qd .stats4 b{font-family:var(--display);font-weight:600;font-size:1.7rem;line-height:1;color:var(--gold)}
+.qd .stats4 span{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+@media (max-width:560px){.qd .stats4{grid-template-columns:1fr 1fr}.qd .stats4 div:nth-child(3){border-left:0}.qd .stats4 div:nth-child(n+3){border-top:1px solid rgba(255,255,255,.12)}}
+.qd .flag{position:absolute;left:0;top:18px;background:var(--gold);color:var(--navy);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;font-weight:700;padding:8px 14px}
+.qd h2{font-size:clamp(2.2rem,4vw,3.2rem)}
+.qd .price{font-family:var(--display);font-size:2.4rem;font-weight:600;color:var(--navy);line-height:1;margin-top:16px}
+.qd .txt{align-self:center}
+.qd .price small{display:block;font-family:var(--body);font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+.qd .specs{margin-top:14px}
+.qd .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.qd .row .btn{padding:13px 20px}
+.qd .note{font-size:.85rem;color:var(--muted);margin-top:12px}
+.hero .qd-link{display:inline-flex;align-items:center;gap:10px;width:max-content;background:rgba(205,169,110,.95);color:var(--navy);text-decoration:none;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;padding:9px 16px}
+.hero .qd-link:hover{background:#fff}
+.card .qd-box{background:var(--navy);color:#fff;padding:12px 14px;font-size:.85rem;display:grid;gap:6px}
+.card .qd-box b{color:var(--gold);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase}
+.card .qd-box a{color:#fff;font-weight:700;text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px}
+/* explore & learn */
+#explore{background:#fff;border-top:1px solid var(--line)}
+.sublabel{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;font-weight:600;color:var(--navy);margin:0 0 16px;display:flex;align-items:center;gap:14px}
+.sublabel::after{content:"";flex:1;height:1px;background:var(--line)}
+.tours{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:56px}
+.tour{display:grid;grid-template-columns:52px 1fr;gap:4px 16px;align-items:start;padding:22px;border:1px solid var(--line);background:var(--bg);text-decoration:none;color:var(--ink);transition:border-color .2s,transform .2s}
+.tour:hover{border-color:var(--gold);transform:translateY(-2px)}
+.tour svg{width:52px;height:52px;grid-row:span 3;color:var(--gold-deep)}
+.tour b{font-family:var(--display);font-size:1.5rem;font-weight:600;color:var(--navy);line-height:1.1}
+.tour span{font-size:.85rem;color:var(--muted)}
+.tour em{font-style:normal;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--navy);border-bottom:1px solid var(--gold);width:max-content;margin-top:6px}
+.videos{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:56px}
+.video{text-decoration:none;color:var(--ink);display:grid;gap:10px}
+.video .thumb{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--navy)}
+.video .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.video:hover .thumb img{transform:scale(1.05)}
+.video .play{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,rgba(12,18,26,0),rgba(12,18,26,.35))}
+.video .play i{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:background .2s}
+.video:hover .play i{background:var(--gold)}
+.video .play i::before{content:"";border-left:15px solid var(--navy);border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:4px}
+.video .dur{position:absolute;right:8px;bottom:8px;background:rgba(12,18,26,.8);color:#fff;font-size:.72rem;font-weight:600;padding:2px 7px;font-variant-numeric:tabular-nums}
+.video b{font-weight:600;font-size:.95rem;line-height:1.35;color:var(--navy)}
+@media (max-width:980px){.videos{grid-template-columns:1fr 1fr}.tours{grid-template-columns:1fr}}
+@media (max-width:520px){.videos{grid-template-columns:1fr}}
+.faq{border-top:1px solid var(--line);max-width:860px}
+.faq details{border-bottom:1px solid var(--line);padding:18px 0}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;font-family:var(--display);font-size:1.45rem;font-weight:600;color:var(--navy)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--body);font-weight:400;font-size:1.5rem;line-height:1;color:var(--gold-deep)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{color:var(--muted);margin-top:8px;max-width:68ch}
+.faq a{color:var(--navy);font-weight:700;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:3px}
+
+/* contact */
+#contact{position:relative;color:#fff;background:var(--night)}
+#contact>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#contact::after{content:"";position:absolute;inset:0;background:rgba(12,18,26,.66)}
+#contact .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+@media (max-width:860px){#contact .wrap{grid-template-columns:1fr}}
+.who{display:grid;gap:14px}
+.who h2{color:#fff}
+.who .kicker{color:var(--gold)}
+.who p{color:rgba(255,255,255,.85);max-width:46ch}
+.who .big{font-family:var(--display);font-size:2.8rem;line-height:1;color:#fff;text-decoration:none}
+.who small{display:block;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+form{background:#fff;color:var(--ink);padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:3px solid var(--gold);box-shadow:0 30px 70px rgba(0,0,0,.35)}
+form .full{grid-column:1/-1}
+form label{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;display:grid;gap:6px;color:var(--muted)}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:2px;padding:11px 13px;text-transform:none;letter-spacing:0}
+textarea{min-height:90px;resize:vertical}
+.msg{font-size:.88rem;font-weight:600;color:#2e7a52}
+@media (max-width:520px){form{grid-template-columns:1fr}}
+
+/* footer */
+footer{background:var(--navy);color:rgba(255,255,255,.75);padding:56px 0 28px;font-size:.9rem}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+@media (max-width:860px){footer .cols{grid-template-columns:1fr 1fr}}
+footer h4{margin:0 0 12px;font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:600}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+footer a{color:#fff;text-decoration:none;opacity:.85}
+footer a:hover{opacity:1;text-decoration:underline}
+footer .base{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:.78rem;color:rgba(255,255,255,.55)}
+footer .hl{width:180px;margin-top:18px}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="cupola" viewBox="0 0 30 44">
+    <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round">
+      <path d="M15 1.5v7"/><path d="M9.5 4.5h11"/><path d="M18.5 2.5l2 2-2 2"/>
+      <path d="M4 22L15 9.5 26 22z"/>
+      <rect x="6.5" y="22" width="17" height="11"/>
+      <path d="M10 25.5h10M10 28h10M10 30.5h10"/>
+      <path d="M2 33h26v3H2z"/>
+      <path d="M1 42.5h28"/>
+    </g>
+  </symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="hl-logo" href="#top" aria-label="Hellings Builders, Blackston Cove home">
+      <img class="on-dark" src="img/hellings-tag-white.png" alt="Hellings Builders, Building a Higher Standard">
+      <img class="on-light" src="img/hellings-tag-color.png" alt="Hellings Builders, Building a Higher Standard">
+    </a>
+    <div class="menu">
+      <a class="item" href="#homes">Homes</a>
+      <a class="item" href="#plan">Site Plan</a>
+      <a class="item" href="#gallery">Gallery</a>
+      <a class="item" href="#builder">The Builder</a>
+      <a class="item" href="#pricing">Pricing</a>
+      <a class="item" href="#explore">Explore &amp; Learn</a>
+      <a class="btn btn-gold" href="#contact">Schedule a Tour</a>
+      <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="overlay"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Site menu">
+  <button class="close" id="close" type="button" aria-label="Close menu">×</button>
+  <nav class="left" aria-label="Full menu">
+    <a href="#quick"><small>★</small>Quick Delivery</a>
+    <a href="#homes"><small>01</small>Home Designs</a>
+    <a href="#plan"><small>02</small>Site Plan</a>
+    <a href="#gallery"><small>03</small>Gallery</a>
+    <a href="#builder"><small>04</small>The Builder</a>
+    <a href="#pricing"><small>05</small>Pricing</a>
+    <a href="#explore"><small>06</small>Explore &amp; Learn</a>
+    <a href="#contact"><small>07</small>Contact</a>
+  </nav>
+  <div class="right">
+    <div><h4>Floor Plans</h4><ul id="pdfs"></ul></div>
+    <div><h4>Sales</h4><ul><li>Mike Selvaggio · Delaware Homes</li><li><a href="tel:+13025845590">(302) 584-5590</a></li><li>Office (302) 378-9510</li></ul></div>
+    <div><h4>Built by</h4><a href="https://hellingsbuilders.com/"><img class="hl" src="img/hellings-tag-white.png" alt="Hellings Builders, Building a Higher Standard"></a></div>
+  </div>
+</div>
+
+<main id="top">
+<section class="hero" style="padding:0">
+  <img src="img/home-day.jpg" alt="Stone and siding Hellings home at golden hour with landscaped walkways and a pool" fetchpriority="high">
+  <div class="wrap">
+    <a class="qd-link" href="#quick">Quick delivery home available · Lot 10 →</a>
+    <span class="kicker">Townsend, Delaware · 2 miles to Middletown</span>
+    <h1>Blackston Cove</h1>
+    <p>A limited collection of 14 luxury homes on 43 acres, each on its own one-acre homesite.</p>
+    <div class="row">
+      <a class="btn btn-gold" href="#homes">Explore the Homes</a>
+      <a class="btn btn-ghost" href="#plan">Choose a Homesite</a>
+    </div>
+    <div class="meta">
+      <div class="price"><small>Priced from</small>$1,299,000</div>
+      <div class="by">A Hellings Builders community</div>
+    </div>
+  </div>
+</section>
+
+<div class="facts">
+  <div class="wrap">
+    <div class="fact"><b>14</b><span>Luxury homes</span></div>
+    <div class="fact"><b>1 acre</b><span>Every homesite</span></div>
+    <div class="fact"><b>4–5</b><span>Bedrooms</span></div>
+    <div class="fact"><b>Since 1998</b><span>Hellings Builders</span></div>
+  </div>
+</div>
+
+<section id="quick">
+  <div class="wrap qd">
+    <div class="card2">
+      <a class="pic" href="Blackston-Cove-Lot-10-Brochure.pdf" target="_blank" rel="noopener"><img src="img/qd-concord.jpg" alt="The Concord II, French Country elevation, planned for Lot 10" loading="lazy"><span class="flag">Quick Delivery</span></a>
+      <div class="stats4"><div><b>3,722</b><span>Square feet</span></div><div><b>4</b><span>Bedrooms</span></div><div><b>3.5</b><span>Baths</span></div><div><b>3-car</b><span>Side-entry garage</span></div></div>
+    </div>
+    <div class="txt">
+      <span class="kicker">Quick Delivery Home · Lot 10</span>
+      <h2 style="margin-top:12px">The Concord II</h2>
+      <p class="sub" style="margin-top:8px">French Country elevation with a first-floor owner's suite on a one-acre homesite. Every option is already chosen and included in one complete price.</p>
+      <div class="price"><small>Offered at</small>$1,399,700</div>
+      <div class="row">
+        <a class="btn btn-navy" href="Blackston-Cove-Lot-10-Brochure.pdf" target="_blank" rel="noopener">View the Lot 10 Brochure (PDF)</a>
+        <a class="btn" href="#contact" style="border-color:var(--line);color:var(--navy)">Ask About Lot 10</a>
+      </div>
+      <p class="note">Estimated groundbreaking February 2027 · anticipated delivery late summer 2027.</p>
+    </div>
+  </div>
+</section>
+
+
+
+<section id="homes">
+  <div class="wrap">
+    <div class="head">
+      <span class="kicker">The Homes</span>
+      <h2>Suggested designs</h2>
+      <div class="rule"></div>
+      <p class="sub">Classic architecture with stone façades, side-entry garages, 9-foot first-floor ceilings, hardwood floors and a private study in every plan. We welcome modifications to our designs, or bring your own custom home plans.</p>
+    </div>
+    <div class="homes" id="homes-grid"></div>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="wrap">
+    <div class="head">
+      <span class="kicker">Community Site Plan</span>
+      <h2>Choose your homesite</h2>
+      <div class="rule"></div>
+      <p class="sub">Tap a lot number to see its premium, then pick a home to see your starting price.</p>
+    </div>
+    <div class="plan">
+      <div>
+        <div class="legend" id="legend" role="group" aria-label="Filter homesites by premium"></div>
+        <div class="map">
+          <img src="img/siteplan-v2.jpg" alt="Blackston Cove site plan: 14 lots along Blackston Drive and Witherspoon Way, with lots 6 to 9 on a cul-de-sac, off Summit Bridge Road">
+          <svg id="spots" viewBox="0 0 1549 1015" aria-label="Homesite selector">
+            <g class="road" aria-hidden="true">
+              <rect x="282" y="18" width="380" height="46" rx="3"></rect><text x="472" y="41">← MIDDLETOWN 2 MILES</text>
+              <rect x="790" y="22" width="460" height="38" rx="3"></rect><text x="1020" y="41">SUMMIT BRIDGE ROAD · RT 71</text>
+              <g transform="translate(768 300) rotate(-90)"><rect x="-120" y="-19" width="240" height="38" rx="3"></rect><text x="0" y="0">BLACKSTON DR</text></g>
+              <g transform="translate(1000 425) rotate(-17)"><rect x="-160" y="-22" width="320" height="44" rx="3"></rect><text x="0" y="0">WITHERSPOON WAY</text></g>
+              <g transform="translate(570 610) rotate(-14)"><rect x="-175" y="-24" width="350" height="48" rx="3"></rect><text x="0" y="0">WITHERSPOON WAY</text></g>
+            </g>
+          </svg>
+        </div>
+        <p class="note">Site plan by Hellings Builders. Homesite premiums from the price sheet dated 11/03/26; ask the sales team about current availability.</p>
+      </div>
+      <aside class="card" id="card" aria-live="polite"></aside>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="head">
+      <span class="kicker">Inside a Hellings Home</span>
+      <h2>Crafted down to the last detail</h2>
+      <div class="rule"></div>
+      <p class="sub">A look inside finished homes by Hellings Builders.</p>
+    </div>
+    <div class="gallery">
+      <figure class="big"><img src="img/kitchen2.jpg" alt="Bright kitchen with marble islands and brass pendants" loading="lazy"></figure>
+      <figure><img src="img/g-great-room.jpg" alt="Open great room with fireplace" loading="lazy"></figure>
+      <figure><img src="img/foyer.jpg" alt="Foyer with curved staircase" loading="lazy"></figure>
+      <figure><img src="img/g-bath.jpg" alt="Owner's bath with freestanding tub" loading="lazy"></figure>
+      <figure><img src="img/g-family.jpg" alt="Family room with timber-beamed ceiling" loading="lazy"></figure>
+      <figure><img src="img/g-kitchen3.jpg" alt="White kitchen with wine-storage island" loading="lazy"></figure>
+      <figure><img src="img/living.jpg" alt="Living room with coffered ceiling" loading="lazy"></figure>
+      <figure><img src="img/g-kitchen4.jpg" alt="Kitchen with marble island and drum pendants" loading="lazy"></figure>
+      <figure><img src="img/g-bedroom.jpg" alt="Bedroom with arched windows and chandelier" loading="lazy"></figure>
+      <figure><img src="img/g-sunroom.jpg" alt="Sunroom with stone fireplace" loading="lazy"></figure>
+      <figure><img src="img/kitchen.jpg" alt="Chef's kitchen with professional range" loading="lazy"></figure>
+      <figure><img src="img/g-butler.jpg" alt="Butler's pantry" loading="lazy"></figure>
+      <figure><img src="img/g-mudroom.jpg" alt="Mudroom with built-in lockers" loading="lazy"></figure>
+      <figure><img src="img/g-kitchen5.jpg" alt="Kitchen with French doors to the porch" loading="lazy"></figure>
+    </div>
+    <div class="standard"><div><b>Standard luxury features in every home</b><span>Every Blackston Cove home is built to the Hellings standard. See what comes included.</span></div><a class="btn btn-gold" href="https://www.lifeatblackstoncove.com/s/83026-Standard-features-Blackston-Cove-xcpc.pdf">View Included Features</a></div>
+  </div>
+</section>
+
+<section id="builder">
+  <div class="wrap">
+    <div class="builder">
+      <div>
+        <img class="hl" src="img/hellings-tag-color.png" alt="Hellings Builders, Building a Higher Standard">
+        <p class="lead">Timeless design and modern function, built to the highest standard of custom luxury homes.</p>
+        <p class="copy">Ross Hellings has been building superior homes since 1988 and founded Hellings Builders in 1998. Today the company builds custom homes, renovations and communities across the Delaware Valley, from its Delaware office on Main Street in Middletown.</p>
+        <div class="stats">
+          <div><b>1998</b><span>Founded</span></div>
+          <div><b>35+</b><span>Years building</span></div>
+          <div><b>DE · PA</b><span>Offices</span></div>
+        </div>
+      </div>
+      <div>
+        <span class="kicker">The Hellings Process</span>
+        <ol class="steps" style="margin-top:18px">
+          <li><b>Reserve Your Homesite</b><span>Secure your preferred homesite with a refundable deposit.</span></li>
+          <li><b>Consultation &amp; Feasibility</b><span>Meet the team, share your goals, budget and timeline.</span></li>
+          <li><b>Initial Design</b><span>Start from a Blackston Cove plan and shape it around your life.</span></li>
+          <li><b>Final Design &amp; Pre-Construction</b><span>Choose finishes with the selections team and lock in the details.</span></li>
+          <li><b>Build Your Dream</b><span>Hellings project managers see your home through to move-in.</span></li>
+        </ol>
+      </div>
+    </div>
+    <div class="ross">
+      <a class="video" href="https://www.lifeatblackstoncove.com/"><div class="thumb"><img src="img/vid-ross.jpg" alt="Ross Hellings, President, on a Hellings job site" loading="lazy"><span class="play"><i></i></span><span class="dur">4:00</span></div></a>
+      <div>
+        <span class="kicker">Meet the Builder</span>
+        <h3 style="margin-top:10px">Ross Hellings on how a Hellings home is built</h3>
+        <p>Ross walks through the Hellings building process, from the first site work to finished interiors, and introduces the team behind every home.</p>
+        <a class="btn btn-navy" href="https://www.lifeatblackstoncove.com/" style="margin-top:20px">Watch the Video</a>
+      </div>
+    </div>
+    <div class="quotes">
+      <figure class="quote" style="margin:0"><p>“Hellings Builders far exceeded our every expectation.”</p><cite>Peter M.</cite></figure>
+      <figure class="quote" style="margin:0"><p>“Outstanding quality work and easy to work with.”</p><cite>Kaitlin B.</cite></figure>
+      <figure class="quote" style="margin:0"><p>“Hellings built our dream home.”</p><cite>Tracy D.</cite></figure>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="head">
+      <span class="kicker">Pre-Construction Pricing</span>
+      <h2>Clear, upfront pricing</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="ptable">
+      <table>
+        <thead><tr><th>Home</th><th>Bedrooms</th><th class="num">Sq. ft.</th><th>Garage</th><th class="num">Price</th></tr></thead>
+        <tbody id="ptbody"></tbody>
+      </table>
+    </div>
+    <p class="fine">* Includes added 2nd zoned HVAC and standard carpeting. Homesite premiums of $0 to $75,000 apply. Prices subject to change without notice; price sheet dated 11/03/26.</p>
+  </div>
+</section>
+
+
+<section id="explore">
+  <div class="wrap">
+    <div class="head">
+      <span class="kicker">Explore &amp; Learn</span>
+      <h2>See Hellings homes for yourself</h2>
+      <div class="rule"></div>
+      <p class="sub">Take a self-guided tour of finished Hellings Builders homes and models at your own pace. All Hellings communities are within 30 minutes of Wilmington. Take the ride; it's worth it.</p>
+    </div>
+    <p class="sublabel">Self-guided driving tours</p>
+    <div class="tours">
+      <a class="tour" href="https://www.lifeatblackstoncove.com/s/Cedar_Run_Self_Driving_Tour_Updated_Photo.pdf"><svg viewBox="0 0 52 52" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="13" cy="12" r="5"/><path d="M13 17c0 9 26 6 26 17"/><path d="M39 34v4"/><path d="M33 44h12"/><path d="M39 30l-4-6h8z" fill="currentColor"/></g></svg><b>Cedar Run</b><span>Finished Hellings homes and models</span><em>Download tour (PDF)</em></a>
+      <a class="tour" href="https://www.lifeatblackstoncove.com/s/Woods_at_Rose_Tree_Self_Drivong_Tour.pdf"><svg viewBox="0 0 52 52" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="13" cy="12" r="5"/><path d="M13 17c0 9 26 6 26 17"/><path d="M39 34v4"/><path d="M33 44h12"/><path d="M39 30l-4-6h8z" fill="currentColor"/></g></svg><b>The Woods at Rose Tree</b><span>Eight estate homes in Media, PA</span><em>Download tour (PDF)</em></a>
+      <a class="tour" href="https://www.lifeatblackstoncove.com/s/The_Meadows_Driving_Tour_Updated_Tagline.pdf"><svg viewBox="0 0 52 52" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="13" cy="12" r="5"/><path d="M13 17c0 9 26 6 26 17"/><path d="M39 34v4"/><path d="M33 44h12"/><path d="M39 30l-4-6h8z" fill="currentColor"/></g></svg><b>The Meadows</b><span>Hellings home styles to tour</span><em>Download tour (PDF)</em></a>
+    </div>
+    <p class="sublabel">Helpful videos</p>
+    <div class="videos">
+      <a class="video" href="https://www.lifeatblackstoncove.com/faqs"><div class="thumb"><img src="img/vid-rosetree.jpg" alt="" loading="lazy"><span class="play"><i></i></span><span class="dur">2:17</span></div><b>Video tour of the Woods at Rose Tree by Hellings Builders</b></a>
+      <a class="video" href="https://www.lifeatblackstoncove.com/faqs"><div class="thumb"><img src="img/vid-wait.jpg" alt="" loading="lazy"><span class="play"><i></i></span><span class="dur">0:50</span></div><b>Should you wait to buy? Great question!</b></a>
+      <a class="video" href="https://www.lifeatblackstoncove.com/faqs"><div class="thumb"><img src="img/vid-sell.jpg" alt="" loading="lazy"><span class="play"><i></i></span><span class="dur">3:05</span></div><b>How can I sell my current home when buying a new home?</b></a>
+      <a class="video" href="https://www.lifeatblackstoncove.com/faqs"><div class="thumb"><img src="img/vid-dha.jpg" alt="" loading="lazy"><span class="play"><i></i></span><span class="dur">3:49</span></div><b>How to make your move easier with the Delaware Home Advantage Program</b></a>
+    </div>
+    <p class="sublabel">Frequently asked questions</p>
+    <div class="faq">
+      <details open><summary>What do homes at Blackston Cove cost?</summary><p>Pre-construction prices start at $1,299,000 for the Concord II and run to $1,510,300 for the five-bedroom Conestoga. Homesite premiums range from $0 to $75,000. See <a href="#pricing">pricing</a> for every plan.</p></details>
+      <details><summary>How big are the homesites?</summary><p>Each of the 14 homes sits on its own homesite of about one acre, within a 43-acre community off Summit Bridge Road, two miles from Middletown.</p></details>
+      <details><summary>Can I personalize my home?</summary><p>Yes. Start from one of our suggested designs and modify it, or bring your own custom home plans. The Hellings selections team will help you choose finishes and options.</p><a class="pdf" href="https://www.lifeatblackstoncove.com/s/83026-Standard-features-Blackston-Cove-xcpc.pdf">View the included features list (PDF)</a></details>
+      <details><summary>What is the Hellings building process?</summary><p>Consultation and feasibility, initial design, final design and pre-construction, then construction managed by a Hellings project manager. <a href="#builder">Read more about the builder</a>.</p></details>
+      <details><summary>I still own a home. Can I buy now?</summary><p>Yes. Many buyers sell their current home while their new one is being built. These two short videos explain how, or <a href="#contact">talk with the sales team</a> about your situation.</p>
+        <div class="vids">
+          <a class="video" href="https://www.lifeatblackstoncove.com/faqs"><div class="thumb"><img src="img/vid-sell.jpg" alt="" loading="lazy"><span class="play"><i></i></span><span class="dur">3:05</span></div><b>How to sell your current home when buying a new one</b></a>
+          <a class="video" href="https://www.lifeatblackstoncove.com/faqs"><div class="thumb"><img src="img/vid-dha.jpg" alt="" loading="lazy"><span class="play"><i></i></span><span class="dur">3:49</span></div><b>The Delaware Home Advantage Program</b></a>
+        </div></details>
+      <details><summary>What is the school district, and what are the HOA fees?</summary><p>Blackston Cove is in the Appoquinimink School District. Recent listings show HOA fees of about $500 per year; confirm current fees with the sales team.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <img src="img/hero-dusk.jpg" alt="" aria-hidden="true" loading="lazy">
+  <div class="wrap">
+    <div class="who">
+      <span class="kicker">Visit Blackston Cove</span>
+      <h2>Let's find your homesite</h2>
+      <p>Call Mike Selvaggio at Delaware Homes Real Estate for a private tour.</p>
+      <a class="big" href="tel:+13025845590">(302) 584-5590</a>
+      <div><small>Office</small>(302) 378-9510 · 401 Main Street, Townsend, DE 19734</div>
+    </div>
+    <form id="form" novalidate>
+      <label>First name<input id="f1" name="first" autocomplete="given-name"></label>
+      <label>Last name<input id="f2" name="last" autocomplete="family-name"></label>
+      <label class="full">Email<input id="f3" name="email" type="email" autocomplete="email"></label>
+      <label class="full">Message<textarea id="f4" name="msg" placeholder="Which home and homesite interest you?"></textarea></label>
+      <div class="full" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <button class="btn btn-navy" type="submit">Request Info</button><span class="msg" id="fmsg" role="status"></span>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a href="https://hellingsbuilders.com/" style="display:block;opacity:1"><img src="img/hellings-tag-white.png" alt="Hellings Builders, Building a Higher Standard" style="width:220px;height:auto"></a>
+        <p style="margin-top:16px;max-width:30ch">Blackston Cove, 14 luxury homes near Middletown, Delaware.</p>
+      </div>
+      <div><h4>Community</h4><ul><li><a href="#homes">Home Designs</a></li><li><a href="#plan">Site Plan</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#explore">Explore &amp; Learn</a></li></ul></div>
+      <div><h4>Hellings Builders</h4><ul><li>225 W Main St.</li><li>Middletown, DE 19709</li><li>302-798-6850</li><li><a href="https://hellingsbuilders.com/">hellingsbuilders.com</a></li></ul></div>
+      <div><h4>More Communities</h4><ul><li><a href="https://www.estatesathowellridge.com/">Estates at Howell Ridge</a></li><li><a href="https://sussexofwestchester.com/hellings">Sussex of West Chester</a></li><li><a href="https://hellingsbuilders.com/communities/">All communities</a></li></ul></div>
+    </div>
+    <div class="base"><span>Marketed by Delaware Homes Real Estate</span><span>Renderings are artist concepts; details and dimensions subject to change.</span></div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="x" id="lbClose" type="button" aria-label="Close photo viewer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="prev" id="lbPrev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="next" id="lbNext" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="stage"><img id="lbImg" src="" alt=""></div>
+  <div class="bar"><span class="cap" id="lbCap"></span><span class="count" id="lbCount"></span></div>
+</div>
+<script>
+(function(){
+const SITE="https://www.lifeatblackstoncove.com/s/";
+const money=n=>"$"+n.toLocaleString("en-US");
+const MODELS=[
+  {id:"concord",name:"Concord II",img:"model-concord.jpg",pdf:"Hellings-Concord-Model.pdf",opts:[{bd:4,sf:3722,g:"2-car side-entry",p:1299000}]},
+  {id:"devon",name:"Devon",img:"model-devon.jpg",pdf:"Hellings-Devon-Model.pdf",opts:[{bd:4,sf:3804,g:"3-car side-entry",p:1375000},{bd:5,sf:4164,g:"3-car side-entry",p:1410300,s:1}]},
+  {id:"bradford",name:"Bradford II",img:"model-bradford.jpg",pdf:"Hellings-Bradford-II-Model.pdf",opts:[{bd:4,sf:4040,g:"3-car side-entry",p:1399000},{bd:5,sf:4380,g:"3-car side-entry",p:1434300,s:1}]},
+  {id:"newtown",name:"Newtown",img:"model-newtown.jpg",pdf:"Hellings-Newtown-Model.pdf",opts:[{bd:4,sf:4080,g:"3-car side-entry",p:1425000},{bd:5,sf:4420,g:"3-car side-entry",p:1460300,s:1}]},
+  {id:"conestoga",name:"Conestoga",img:"model-conestoga.jpg",pdf:"Conestoga-corrected.pdf",opts:[{bd:4,sf:4290,g:"3-car side-entry",p:1475000},{bd:5,sf:4630,g:"3-car side-entry",p:1510300,s:1}]}
+];
+const EXTRA=[{name:"Charleston",opts:[{bd:4,sf:3748,g:"3-car side-entry",p:1350000},{bd:5,sf:4036,g:"3-car side-entry",p:1385300,s:1}]}];
+const SOLD={c:"#c0392b",l:"Sold"};
+const TIERS={0:{c:"var(--t0)",l:"No premium"},25000:{c:"var(--t25)",l:"$25,000"},50000:{c:"var(--t50)",l:"$50,000"},75000:{c:"var(--t75)",l:"$75,000 · cul-de-sac"}};
+const LOTS=[
+ {n:1,x:577,y:203,p:0},{n:2,x:577,y:312,p:25000},{n:3,x:656,y:428,p:25000},{n:4,x:555,y:451,p:50000},{n:5,x:448,y:468,p:50000},
+ {n:6,x:805,y:823,p:75000},{n:7,x:945,y:881,p:75000},{n:8,x:1143,y:808,p:75000},{n:9,x:1165,y:615,p:75000},
+ {n:10,x:947,y:229,p:0},{n:11,x:929,y:360,p:25000},{n:12,x:1060,y:257,p:50000},{n:13,x:1164,y:243,p:50000},
+ {n:14,x:280,y:212,p:null,sold:true}
+];
+
+/* homes */
+const grid=document.getElementById("homes-grid");
+grid.innerHTML=MODELS.map(m=>{
+  const lo=m.opts[0], hi=m.opts[m.opts.length-1];
+  const bd=lo.bd===hi.bd?lo.bd:lo.bd+"–"+hi.bd, sf=lo.sf===hi.sf?lo.sf.toLocaleString():lo.sf.toLocaleString()+"–"+hi.sf.toLocaleString();
+  return `<article class="home" id="home-${m.id}">
+    <div class="pic"><img src="img/${m.img}" alt="${m.name} exterior rendering" loading="lazy"></div>
+    <div class="body">
+      <div class="top"><h3>${m.name}</h3><div class="from">From<b>${money(lo.p)}</b></div></div>
+      <div class="specs"><span><b>${bd}</b> bedrooms</span><span><b>${sf}</b> sq ft</span><span><b>${lo.g}</b> garage</span></div>
+      <div class="links"><a href="${SITE+m.pdf}">Floor Plan</a><button type="button" data-pick="${m.id}">Price on a Homesite</button></div>
+    </div></article>`;}).join("");
+grid.querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{state.model=b.dataset.pick+"|0";renderCard();document.getElementById("plan").scrollIntoView();});
+
+/* pricing table */
+document.getElementById("ptbody").innerHTML=[...MODELS,...EXTRA].sort((a,b)=>a.opts[0].p-b.opts[0].p).flatMap(m=>m.opts.map((o,i)=>
+  `<tr><td>${i===0?`<b>${m.name}</b>`:""}</td><td>${o.bd} bedrooms</td><td class="num">${o.sf.toLocaleString()}</td><td>${o.g}</td><td class="num"><b>${money(o.p)}${o.s?"*":""}</b></td></tr>`)).join("");
+
+/* site plan */
+const NS="http://www.w3.org/2000/svg", svg=document.getElementById("spots");
+const state={lot:6,model:"devon|0",filter:"all"};
+LOTS.forEach(L=>{
+  const g=document.createElementNS(NS,"g");g.setAttribute("class","spot");g.setAttribute("tabindex","0");g.setAttribute("role","button");
+  g.setAttribute("aria-label",L.sold?`Lot ${L.n}, sold`:`Lot ${L.n}, premium ${TIERS[L.p].l}`);g.dataset.n=L.n;
+  g.innerHTML=`<circle cx="${L.x}" cy="${L.y}" r="34" fill="${(L.sold?SOLD:TIERS[L.p]).c}"></circle><text x="${L.x}" y="${L.y+1}">${L.n}</text>`+(L.sold?`<rect x="${L.x+40}" y="${L.y-18}" width="96" height="36" rx="3" fill="#c0392b"></rect><text class="sold" x="${L.x+88}" y="${L.y+1}">SOLD</text>`:"")+(L.n===10?`<rect x="${L.x-100}" y="${L.y-84}" width="200" height="36" rx="3" fill="#cda96e"></rect><text class="sold" x="${L.x}" y="${L.y-65}" style="fill:#15202b">QUICK DELIVERY</text>`:"");
+  g.onclick=()=>{state.lot=L.n;paint();renderCard();};
+  g.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();g.onclick();}};
+  svg.appendChild(g);
+});
+const legend=document.getElementById("legend");
+function renderLegend(){
+  const items=[["all","All lots",null]].concat(Object.entries(TIERS).map(([k,v])=>[k,v.l,v.c])).concat([["sold","Sold",SOLD.c]]);
+  legend.innerHTML="";
+  items.forEach(([k,l,c])=>{const b=document.createElement("button");b.type="button";b.className="chip";b.setAttribute("aria-pressed",state.filter===k);
+    b.innerHTML=(c?`<span class="dot" style="background:${c}"></span>`:"")+l;b.onclick=()=>{state.filter=k;renderLegend();paint();};legend.appendChild(b);});
+}
+function paint(){svg.querySelectorAll(".spot").forEach(g=>{const L=LOTS.find(l=>l.n==g.dataset.n);g.classList.toggle("on",L.n===state.lot);g.classList.toggle("dim",state.filter!=="all"&&(L.sold?"sold":String(L.p))!==state.filter);});}
+const card=document.getElementById("card");
+function renderCard(){
+  const L=LOTS.find(l=>l.n===state.lot), T=(L.sold?SOLD:TIERS[L.p]), known=L.p!==null;
+  if(L.sold){card.innerHTML=`<div class="row"><div><span class="kicker">Homesite</span><h3>Lot ${L.n}</h3></div><span class="prem" style="background:${SOLD.c}">Sold</span></div><p class="hint">This homesite has been sold. Choose another lot on the plan to see your starting price.</p>`;return;}
+  const [mid,oi]=state.model.split("|"); const m=MODELS.find(x=>x.id===mid), o=m.opts[+oi];
+  const opts=MODELS.flatMap(x=>x.opts.map((o2,i)=>`<option value="${x.id}|${i}" ${x.id+"|"+i===state.model?"selected":""}>${x.name} · ${o2.bd} bed · ${o2.sf.toLocaleString()} sq ft</option>`)).join("");
+  card.innerHTML=`
+    <div class="row"><div><span class="kicker">Homesite</span><h3>Lot ${L.n}</h3></div><span class="prem" style="background:${T.c}">${!known?"Premium: ask":L.p?money(L.p)+" premium":"No premium"}</span></div>
+    ${L.p===75000?'<p class="hint">One of four homesites on the quiet cul-de-sac.</p>':''}
+    ${L.n===10?'<div class="qd-box"><b>Quick delivery home</b>The Concord II on Lot 10 is offered at $1,399,700 with all upgrades included. <a href="Blackston-Cove-Lot-10-Brochure.pdf" target="_blank" rel="noopener">View the brochure</a></div>':''}
+    <label for="pick">Home design<select id="pick">${opts}</select></label>
+    <div class="total"><small>Starting price on Lot ${L.n}</small><b>${money(o.p+(known?L.p:0))}${known?"":"+"}</b><div class="calc">${m.name} ${money(o.p)} + ${known?"premium "+money(L.p):"homesite premium (ask the sales team)"}</div></div>
+    <a class="btn btn-navy" href="#contact" id="ask">Ask about Lot ${L.n}</a>`;
+  document.getElementById("pick").onchange=e=>{state.model=e.target.value;renderCard();};
+  document.getElementById("ask").onclick=()=>{document.getElementById("f4").value=`I'm interested in Lot ${L.n} with the ${m.name} (${o.bd} bedrooms).`;};
+}
+renderLegend();paint();renderCard();
+
+
+/* gallery lightbox */
+(function(){
+  const figs=[...document.querySelectorAll(".gallery figure")], lb=document.getElementById("lb"), im=document.getElementById("lbImg"),
+        cap=document.getElementById("lbCap"), cnt=document.getElementById("lbCount");
+  let i=0, last=null, sx=null;
+  const show=n=>{i=(n+figs.length)%figs.length;const g=figs[i].querySelector("img");im.src=g.src;im.alt=g.alt;cap.textContent=g.alt;cnt.textContent=(i+1)+" / "+figs.length;};
+  const open=n=>{last=document.activeElement;show(n);lb.classList.add("open");document.body.classList.add("locked");document.getElementById("lbClose").focus();};
+  const close=()=>{lb.classList.remove("open");document.body.classList.remove("locked");if(last)last.focus();};
+  figs.forEach((f,n)=>{
+    f.tabIndex=0;f.setAttribute("role","button");f.setAttribute("aria-label","View larger: "+f.querySelector("img").alt);
+    f.insertAdjacentHTML("beforeend",'<span class="zi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5M11 8.5v5M8.5 11h5"/></svg></span>');
+    if(n===4&&figs.length>5)f.insertAdjacentHTML("beforeend",'<span class="more" aria-hidden="true"><b>+'+(figs.length-4)+'</b><span>View all '+figs.length+' photos</span></span>');
+    f.addEventListener("click",()=>open(n));
+    f.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open(n);}});
+  });
+  document.getElementById("lbClose").onclick=close;
+  document.getElementById("lbPrev").onclick=()=>show(i-1);
+  document.getElementById("lbNext").onclick=()=>show(i+1);
+  lb.addEventListener("click",e=>{if(e.target===lb||e.target.classList.contains("stage"))close();});
+  addEventListener("keydown",e=>{if(!lb.classList.contains("open"))return;if(e.key==="Escape")close();if(e.key==="ArrowLeft")show(i-1);if(e.key==="ArrowRight")show(i+1);});
+  lb.addEventListener("touchstart",e=>{sx=e.touches[0].clientX},{passive:true});
+  lb.addEventListener("touchend",e=>{if(sx===null)return;const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(i+(d<0?1:-1));sx=null;});
+})();
+/* first screen: hero + facts strip fit the window */
+const factsEl=document.querySelector(".facts");
+const fitHero=()=>document.documentElement.style.setProperty("--facts-h",factsEl.offsetHeight+"px");
+fitHero();addEventListener("resize",fitHero);
+/* overlay menu */
+document.getElementById("pdfs").innerHTML=MODELS.map(m=>`<li><a href="${SITE+m.pdf}">${m.name}</a></li>`).join("")+`<li><a href="${SITE}83026-Standard-features-Blackston-Cove-xcpc.pdf">Included features</a></li>`;
+const ov=document.getElementById("overlay"),bur=document.getElementById("burger");
+const setMenu=o=>{ov.classList.toggle("open",o);document.body.classList.toggle("locked",o);bur.setAttribute("aria-expanded",o);if(o)document.getElementById("close").focus();else bur.focus();};
+bur.onclick=()=>setMenu(true);document.getElementById("close").onclick=()=>setMenu(false);
+ov.querySelectorAll(".left a").forEach(a=>a.addEventListener("click",()=>setMenu(false)));
+addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("open"))setMenu(false);});
+/* nav + form */
+const nav=document.getElementById("nav");const onS=()=>nav.classList.toggle("solid",scrollY>60);addEventListener("scroll",onS,{passive:true});onS();
+document.getElementById("form").addEventListener("submit",e=>{e.preventDefault();const m=document.getElementById("fmsg");
+  if(!document.getElementById("f1").value||!/.+@.+\..+/.test(document.getElementById("f3").value)){m.style.color="#b3632a";m.textContent="Please add your name and email.";return;}
+  m.style.color="#2e7a52";m.textContent="Preview only: connect this form to your inbox to receive inquiries.";});
+})();
+</script>
+</body>
+</html>
